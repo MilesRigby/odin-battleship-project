@@ -38,7 +38,18 @@ describe('Ship game object', () => {
             expect(ship.isSunk()).toBe(true);
         }
         
-    )
+    );
+
+    test.each(sizes) (
+            
+        "is not sunk if not hit enough times; ship size: %i",
+        (size) => {
+            ship = Ship(size);
+            for (let i=1; i < size; i++) { ship.hit(); }
+            expect(ship.isSunk()).toBe(false);
+        }
+        
+    );
 /*
     it ('', () => {
 

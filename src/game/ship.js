@@ -1,10 +1,10 @@
-const Ship = () => {
+const Ship = (size) => {
 
-    let sunk = false;
+    let hits = 0;
 
-    const hit = () => { sunk = true; }
+    const hit = () => { hits++; }
 
-    const isSunk = () => { return sunk; }
+    const isSunk = () => { return hits === size; }
 
     return {
         hit,
