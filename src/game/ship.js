@@ -1,6 +1,13 @@
 const Ship = () => {
 
-    return {}
+    const hit = () => {}
+
+    const isSunk = () => {}
+
+    return {
+        hit,
+        isSunk    
+    }
 
 }
 
