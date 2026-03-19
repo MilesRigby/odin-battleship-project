@@ -18,10 +18,18 @@ describe('Game Board object', () => {
     });
 
     it('returns a 10*10 grid from getBoardState', () => {
-        let state = gameBoard.getBoardState();
+        const state = gameBoard.getBoardState();
         expect(state[0][9]).toEqual(expect.anything());
         expect(state[5][9]).toEqual(expect.anything());
         expect(state[9][9]).toEqual(expect.anything());
+    });
+
+    it('initialises game board as empty', () => {
+        const board = GameBoard();
+        const state = gameBoard.getBoardState();
+        expect(state[0][9]).toBe('empty');
+        expect(state[5][9]).toBe('empty');
+        expect(state[9][9]).toBe('empty');
     });
 
 });

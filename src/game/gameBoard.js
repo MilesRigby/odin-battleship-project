@@ -4,16 +4,16 @@ const GameBoard = () => {
 
     const getBoardState = () => { 
         return [
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+            ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+            ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+            ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+            ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+            ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+            ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+            ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+            ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+            ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+            ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty']
         ] 
     }
 
