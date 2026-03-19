@@ -3,7 +3,11 @@ import GameBoard from './gameBoard.js';
 describe('Game Board object', () => {
 
     // Test object
-    let gameBoard = GameBoard();
+    let gameBoard;
+
+    beforeEach(() => {
+        gameBoard = GameBoard();
+    })
 
     it('is an object', () => {
         expect(gameBoard).toEqual(expect.any(Object));
@@ -29,11 +33,19 @@ describe('Game Board object', () => {
     });
 
     it('initialises game board as empty', () => {
-        const board = GameBoard();
         const state = gameBoard.getBoardState();
         expect(state[0][9]).toBe('empty');
         expect(state[5][9]).toBe('empty');
         expect(state[9][9]).toBe('empty');
+    });
+
+    it('registers misses with receiveAttack on empty spaces', () => {
+        gameBoard.receiveAttack({x: 4, y: 7});
+        gameBoard.receiveAttack({x: 9, y: 2});
+        state = gameBoard.getBoardState();
+
+        expect(state[4][7]).toBe('miss');
+        expect(state[9][2]).toBe('miss');
     });
 
 });
