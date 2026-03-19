@@ -9,4 +9,8 @@ describe('Game Board object', () => {
         expect(gameBoard).toEqual(expect.any(Object));
     });
 
+    it('has a function getBoardState', () => {
+        expect(gameBoard.getBoardState).toEqual(expect.any(Function));
+    })
+
 });
