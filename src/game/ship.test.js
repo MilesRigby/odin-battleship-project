@@ -3,8 +3,8 @@ import Ship from './ship.js';
 describe('Ship game object', () => {
 
     // An arbitrary ship size for tests that require a ship object but don't care how big it is
-    const ARBITRARY_SIZE = 3
-
+    const ARBITRARY_SIZE = 3;
+    
     // Test objects 
     let ship;
 
@@ -24,9 +24,9 @@ describe('Ship game object', () => {
     it ('has a function, isSunk()', () => {
         expect(ship.isSunk).toEqual(expect.any(Function));
     });
-/*
-    it ('', () => {
 
+    it ('is not sunk if not yet hit', () => {
+        expect(ship.isSunk()).toBe(false);
     });
 /*
     it ('', () => {

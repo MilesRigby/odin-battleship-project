@@ -2,7 +2,7 @@ const Ship = () => {
 
     const hit = () => {}
 
-    const isSunk = () => {}
+    const isSunk = () => { return false; }
 
     return {
         hit,
