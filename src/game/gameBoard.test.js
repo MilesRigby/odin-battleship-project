@@ -13,6 +13,10 @@ describe('Game Board object', () => {
         expect(gameBoard.getBoardState).toEqual(expect.any(Function));
     });
 
+    it('has a function receiveAttack', () => {
+        expect(gameBoard.receiveAttack).toEqual(expect.any(Function));
+    });
+
     it('returns an array from getBoardState', () => {
         expect(gameBoard.getBoardState()).toEqual(expect.any(Array));
     });
