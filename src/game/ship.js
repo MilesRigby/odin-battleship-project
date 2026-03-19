@@ -1,8 +1,10 @@
 const Ship = () => {
 
-    const hit = () => {}
+    let sunk = false;
 
-    const isSunk = () => { return false; }
+    const hit = () => { sunk = true; }
+
+    const isSunk = () => { return sunk; }
 
     return {
         hit,
