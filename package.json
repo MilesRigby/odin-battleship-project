@@ -1,23 +1,23 @@
 {
-  "name": "webpack-base",
+  "name": "odin-battleship-project",
   "version": "1.0.0",
-  "description": "A foundation for npm webpack projects, including minimal modules and functionality. Allows out of the box use of HTML, CSS, JavaScript, and ESLint.",
+  "description": "The popular boardgame Battleship, created with test-driven development as part of The Odin Project",
   "main": "index.js",
   "scripts": {
     "test": "jest"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MilesRigby/webpack-base.git"
+    "url": "git+https://github.com/MilesRigby/odin-battleship-project.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
   "bugs": {
-    "url": "https://github.com/MilesRigby/webpack-base/issues"
+    "url": "https://github.com/MilesRigby/odin-battleship-project/issues"
   },
-  "homepage": "https://github.com/MilesRigby/webpack-base#readme",
+  "homepage": "https://github.com/MilesRigby/odin-battleship-project#readme",
   "devDependencies": {
     "@babel/preset-env": "^7.29.0",
     "@eslint/js": "^10.0.1",
@@ -28,6 +28,7 @@
     "jest": "^30.2.0",
     "style-loader": "^4.0.0",
     "webpack": "^5.105.2",
-    "webpack-cli": "^6.0.1"
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.3"
   }
 }
