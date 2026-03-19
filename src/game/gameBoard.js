@@ -2,7 +2,7 @@ import Ship from './ship.js';
 
 const GameBoard = () => {
 
-    const getBoardState = () => {}
+    const getBoardState = () => { return [] }
 
     return {
         getBoardState
