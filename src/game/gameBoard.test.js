@@ -17,11 +17,11 @@ describe('Game Board object', () => {
         expect(gameBoard.getBoardState()).toEqual(expect.any(Array));
     });
 
-    /*it('returns a 10*10 grid from getBoardState', () => {
+    it('returns a 10*10 grid from getBoardState', () => {
         let state = gameBoard.getBoardState();
-        expect(getBoardState()[0][9]).toEqual(expect.anything());
-        expect(getBoardState()[5][9]).toEqual(expect.anything());
-        expect(getBoardState()[9][9]).toEqual(expect.anything());
+        expect(state[0][9]).toEqual(expect.anything());
+        expect(state[5][9]).toEqual(expect.anything());
+        expect(state[9][9]).toEqual(expect.anything());
     });
-*/
+
 });
