@@ -47,6 +47,16 @@ describe('Game Board object', () => {
 
     });
 
+    describe('addShip()', () => {
+
+        it('adds a number representing a ship to a specified position', () => {
+            gameBoard.addShip({x: 7, y: 3});
+            state = gameBoard.getBoardState();
+            expect(state[7][3]).toEqual(expect.any(Number));
+        });
+
+    });
+
     describe('receiveAttack()', () => {
 
         it('changes "empty" spaces to "miss" when targeted', () => {

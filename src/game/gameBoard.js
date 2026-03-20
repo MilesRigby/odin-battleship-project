@@ -17,7 +17,9 @@ const GameBoard = () => {
 
     const getBoardState = () => state;
 
-    const addShip = () => {}
+    const addShip = (pos) => {
+        state[pos.x][pos.y] = 0;
+    }
 
     const receiveAttack = (pos) => {
         if (state[pos.x][pos.y] === 'empty') {
