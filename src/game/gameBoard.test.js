@@ -93,6 +93,17 @@ describe('Game Board object', () => {
             expect(state[6][3]).toBe(2);
         });
 
+        it('creates ships of a specified length, facing north (+ve y) by default', () => {
+            gameBoard.addShip({x: 9, y: 4}, 5);
+            state = gameBoard.getBoardState();
+
+            expect(state[9][4]).toBe(1);
+            expect(state[9][5]).toBe(1);
+            expect(state[9][6]).toBe(1);
+            expect(state[9][7]).toBe(1);
+            expect(state[9][8]).toBe(1);
+        });
+
     });
 
     describe('receiveAttack()', () => {

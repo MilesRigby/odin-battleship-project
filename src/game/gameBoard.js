@@ -8,12 +8,15 @@ const GameBoard = () => {
 
     const getBoardState = () => state;
 
-    const addShip = (pos) => {
+    const addShip = (pos, length = 1) => {
         if (state[pos.x][pos.y]) {
             return false;
         }
+
+        for (i=0; i<length; i++) {
+            state[pos.x][pos.y + i] = nextShip;
+        }
         
-        state[pos.x][pos.y] = nextShip;
         nextShip++;
         return true;
     }
