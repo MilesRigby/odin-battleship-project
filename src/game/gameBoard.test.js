@@ -194,6 +194,15 @@ describe('Game Board object', () => {
             expect(state[6][4]).toBe(1);
             expect(state[4][4]).toBe(1);
         });
+
+        it('returns false when targeting a previously hit space', () => {
+            gameBoard.addShip({x: 7, y: 4}, 4, 3)
+            gameBoard.receiveAttack({x: 7, y: 4});
+            gameBoard.receiveAttack({x: 5, y: 4});
+
+            expect(gameBoard.receiveAttack({x: 7, y: 4})).toBe(false);
+            expect(gameBoard.receiveAttack({x: 5, y: 4})).toBe(false)
+        });
     });
 
 });
