@@ -17,6 +17,8 @@ const GameBoard = () => {
 
     const getBoardState = () => state;
 
+    const addShip = () => {}
+
     const receiveAttack = (pos) => {
         if (state[pos.x][pos.y] === 'empty') {
             state[pos.x][pos.y] = 'miss';
@@ -28,6 +30,7 @@ const GameBoard = () => {
 
     return {
         getBoardState,
+        addShip,
         receiveAttack
     }
 

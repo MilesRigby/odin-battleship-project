@@ -17,6 +17,10 @@ describe('Game Board object', () => {
         expect(gameBoard.getBoardState).toEqual(expect.any(Function));
     });
 
+    it('has a function addShip', () => {
+        expect(gameBoard.addShip).toEqual(expect.any(Function));
+    })
+
     it('has a function receiveAttack', () => {
         expect(gameBoard.receiveAttack).toEqual(expect.any(Function));
     });
