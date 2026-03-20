@@ -95,6 +95,7 @@ describe('Game Board object', () => {
 
         it('creates ships of a specified length, facing north (+ve y) by default', () => {
             gameBoard.addShip({x: 9, y: 4}, 5);
+            gameBoard.addShip({x: 4, y: 6}, 2);
             state = gameBoard.getBoardState();
 
             expect(state[9][4]).toBe(1);
@@ -102,6 +103,12 @@ describe('Game Board object', () => {
             expect(state[9][6]).toBe(1);
             expect(state[9][7]).toBe(1);
             expect(state[9][8]).toBe(1);
+            expect(state[9][9]).toBe(0);
+
+            expect(state[4][6]).toBe(2);
+            expect(state[4][7]).toBe(2);
+            expect(state[4][8]).toBe(0);
+
         });
 
     });
