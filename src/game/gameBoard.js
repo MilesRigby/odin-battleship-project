@@ -4,10 +4,13 @@ const GameBoard = () => {
 
     let state = Array.from({ length: 10 }, () => new Array(10).fill(0));
 
+    let nextShip = 1;
+
     const getBoardState = () => state;
 
     const addShip = (pos) => {
-        state[pos.x][pos.y] = 1;
+        state[pos.x][pos.y] = nextShip;
+        nextShip++;
     }
 
     const receiveAttack = (pos) => {

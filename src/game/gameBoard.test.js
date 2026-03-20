@@ -56,6 +56,20 @@ describe('Game Board object', () => {
             expect(state[7][3]).toBeGreaterThan(0);
         });
 
+        it('adds numbers for ships in integer order starting at 1, 2, 3... to specified positions', () => {
+            gameBoard.addShip({x: 7, y: 3});
+            gameBoard.addShip({x: 3, y: 3});
+            gameBoard.addShip({x: 5, y: 9});
+
+            state = gameBoard.getBoardState();
+
+            expect(state[7][3]).toBe(1);
+            expect(state[3][3]).toBe(2);
+            expect(state[5][9]).toBe(3);
+        });
+
+        //it('returns true if position is not already occupied')
+
     });
 
     describe('receiveAttack()', () => {
