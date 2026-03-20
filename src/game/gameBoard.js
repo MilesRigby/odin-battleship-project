@@ -8,17 +8,28 @@ const GameBoard = () => {
 
     const getBoardState = () => state;
 
-    const addShip = (pos, length = 1) => {
-        if (state[pos.x][pos.y]) {
-            return false;
+    const addShip = (start, length = 1) => {
+
+        const positions = _determinePlacementPositions(start, length);
+
+        for (const pos of positions) {
+            if (state[pos.x][pos.y]) {
+                return false;
+            }
         }
 
-        for (i=0; i<length; i++) {
-            state[pos.x][pos.y + i] = nextShip;
+        for (const pos of positions) {
+            state[pos.x][pos.y] = nextShip;
         }
-        
+
         nextShip++;
         return true;
+    }
+
+    const _determinePlacementPositions = (start, length) => {
+        const positions = [];
+        for (i=0; i<length; i++) { positions.push({x: start.x, y: start.y + i}); }
+        return positions;
     }
 
     const receiveAttack = (pos) => {

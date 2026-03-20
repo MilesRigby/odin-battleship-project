@@ -111,6 +111,16 @@ describe('Game Board object', () => {
 
         });
 
+        it('can reject overlapped placements of long ships with different starting points', () => {
+            gameBoard.addShip({x: 7, y: 4}, 5);
+
+            expect(gameBoard.addShip({x: 7, y: 2}, 4)).toBe(false);
+
+            state = gameBoard.getBoardState();
+
+            expect(state[7][2]).toBe(0);
+        });
+
     });
 
     describe('receiveAttack()', () => {
