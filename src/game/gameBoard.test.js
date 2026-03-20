@@ -60,7 +60,6 @@ describe('Game Board object', () => {
             gameBoard.addShip({x: 7, y: 3});
             gameBoard.addShip({x: 3, y: 3});
             gameBoard.addShip({x: 5, y: 9});
-
             state = gameBoard.getBoardState();
 
             expect(state[7][3]).toBe(1);
@@ -70,7 +69,20 @@ describe('Game Board object', () => {
 
         it('returns true if position is not already occupied', () => {
             expect(gameBoard.addShip({x: 7, y: 3})).toBe(true);
-        })
+        });
+
+        it('returns false if position is already occupied', () => {
+            gameBoard.addShip({x: 3, y: 3});
+            expect(gameBoard.addShip({x: 3, y: 3})).toBe(false);
+        });
+
+        /*it('does not change the value at an occupied position', () => {
+            gameBoard.addShip({x: 7, y: 1});
+            gameBoard.addShip({x: 7, y: 1});
+            state = gameBoard.getBoardState();
+
+            expect(state[7][1]).toBe(1);
+        })*/
 
     });
 
