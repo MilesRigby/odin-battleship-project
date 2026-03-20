@@ -60,6 +60,14 @@ describe('Game Board object', () => {
     it('returns true from receiveAttack when targeting an empty space', () => {
         expect(gameBoard.receiveAttack({x: 1, y: 0})).toBe(true);
         expect(gameBoard.receiveAttack({x: 8, y: 9})).toBe(true);
-    })
+    });
+
+    it('returns false from receiveAttack when targeting an already missed space', () => {
+        gameBoard.receiveAttack({x: 7, y: 4});
+        gameBoard.receiveAttack({x: 3, y: 2});
+
+        expect(gameBoard.receiveAttack({x: 7, y: 4})).toBe(false);
+        expect(gameBoard.receiveAttack({x: 3, y: 2})).toBe(false);
+    });
 
 });
