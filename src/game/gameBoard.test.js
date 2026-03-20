@@ -226,6 +226,22 @@ describe('Game Board object', () => {
             expect(gameBoard.receiveAttack({x: 7, y: 4})).toBe(false);
             expect(gameBoard.receiveAttack({x: 5, y: 4})).toBe(false)
         });
+
+        it('calls hit() on a ship corresponding to the ship number, 1, 2, 3..., of the space targeted', () => {
+            const MockShip = jest.fn(() => ({ hit: jest.fn() }));
+
+            gameBoard = GameBoard(MockShip);
+            gameBoard.addShip({x: 2, y: 7}, 4, 2);
+            gameBoard.addShip({x: 5, y: 3}, 3, 1);
+            gameBoard.receiveAttack({x: 2, y: 6});
+            gameBoard.receiveAttack({x: 2, y: 4});
+            gameBoard.receiveAttack({x: 2, y: 7});
+            gameBoard.receiveAttack({x: 5, y: 3});
+            gameBoard.receiveAttack({x: 6, y: 3});
+
+            expect(MockShip.mock.results[0].value.hit).toHaveBeenCalledTimes(3);
+            expect(MockShip.mock.results[1].value.hit).toHaveBeenCalledTimes(2);
+        });
     });
 
 });

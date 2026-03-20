@@ -1,9 +1,12 @@
-import Ship from './ship.js';
+import ShipConstructor from './ship.js';
 
-const GameBoard = () => {
+const GameBoard = (Ship = ShipConstructor) => {
 
     // The current game board state
-    let state = Array.from({ length: 10 }, () => new Array(10).fill(0));
+    const state = Array.from({ length: 10 }, () => new Array(10).fill(0));
+
+    // The ship objects represented on the gameBoard by numbers 1, 2, 3...
+    const ships = [];
 
     // Cardinal directions on the game board. 0 - north; 1 - east; 2 - south; 3 - west
     const directions = {
@@ -34,6 +37,7 @@ const GameBoard = () => {
             state[pos.x][pos.y] = nextShip;
         }
 
+        ships.push(Ship(length));
         nextShip++;
         return true;
     }
@@ -52,12 +56,15 @@ const GameBoard = () => {
 
     // Public function to allow board spaces to be attacked, performing any effects of the attack
     const receiveAttack = (pos) => {
-        if (state[pos.x][pos.y] === 0) {
+        const targetState = state[pos.x][pos.y]
+
+        if (targetState === 0) {
             state[pos.x][pos.y] = -1;
             return true;
         }
 
-        if (state[pos.x][pos.y] > 0) {
+        if (targetState > 0) {
+            ships[targetState - 1].hit();
             state[pos.x][pos.y] = -2;
             return true;
         }
