@@ -25,11 +25,11 @@ describe('Game Board object', () => {
         expect(gameBoard.receiveAttack).toEqual(expect.any(Function));
     });
 
-    it('initialises game board as empty', () => {
+    it('initialises game board as empty by marking with 0', () => {
         const state = gameBoard.getBoardState();
-        expect(state[0][9]).toBe('empty');
-        expect(state[5][9]).toBe('empty');
-        expect(state[9][9]).toBe('empty');
+        expect(state[0][9]).toBe(0);
+        expect(state[5][9]).toBe(0);
+        expect(state[9][9]).toBe(0);
     });
 
     describe('getBoardState()', () => {
@@ -49,23 +49,24 @@ describe('Game Board object', () => {
 
     describe('addShip()', () => {
 
-        it('adds a number representing a ship to a specified position', () => {
+        it('adds a positive number representing a ship to a specified position', () => {
             gameBoard.addShip({x: 7, y: 3});
             state = gameBoard.getBoardState();
             expect(state[7][3]).toEqual(expect.any(Number));
+            expect(state[7][3]).toBeGreaterThan(0);
         });
 
     });
 
     describe('receiveAttack()', () => {
 
-        it('changes "empty" spaces to "miss" when targeted', () => {
+        it('changes empty spaces (0) to missed spaces (-1) when targeted', () => {
             gameBoard.receiveAttack({x: 4, y: 7});
             gameBoard.receiveAttack({x: 9, y: 2});
             state = gameBoard.getBoardState();
 
-            expect(state[4][7]).toBe('miss');
-            expect(state[9][2]).toBe('miss');
+            expect(state[4][7]).toBe(-1);
+            expect(state[9][2]).toBe(-1);
         });
 
         it('does nothing to untargeted empty spaces', () => {
@@ -73,8 +74,8 @@ describe('Game Board object', () => {
             gameBoard.receiveAttack({x: 7, y: 2});
             state = gameBoard.getBoardState();
 
-            expect(state[4][9]).toBe('empty');
-            expect(state[6][2]).toBe('empty');
+            expect(state[4][9]).toBe(0);
+            expect(state[6][2]).toBe(0);
         });
 
         it('returns true when targeting an empty space', () => {
