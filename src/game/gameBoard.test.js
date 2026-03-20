@@ -48,13 +48,18 @@ describe('Game Board object', () => {
         expect(state[9][2]).toBe('miss');
     });
 
-    it('does nothing to spaces that are not targeted in receiveAttack', () => {
-        gameBoard.receiveAttack({x: 4, y: 7});
-        gameBoard.receiveAttack({x: 9, y: 2});
+    it('does nothing to empty spaces that are not targeted in receiveAttack', () => {
+        gameBoard.receiveAttack({x: 2, y: 5});
+        gameBoard.receiveAttack({x: 7, y: 2});
         state = gameBoard.getBoardState();
 
         expect(state[4][9]).toBe('empty');
         expect(state[6][2]).toBe('empty');
     });
+
+    it('returns true from receiveAttack when targeting an empty space', () => {
+        expect(gameBoard.receiveAttack({x: 1, y: 0})).toBe(true);
+        expect(gameBoard.receiveAttack({x: 8, y: 9})).toBe(true);
+    })
 
 });

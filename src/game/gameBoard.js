@@ -19,6 +19,7 @@ const GameBoard = () => {
 
     const receiveAttack = (pos) => {
         state[pos.x][pos.y] = 'miss';
+        return true;
     }
 
     return {
