@@ -111,7 +111,7 @@ describe('Game Board object', () => {
 
         });
 
-        it('can reject overlapped placements of long ships with different starting points', () => {
+        it('rejects overlapped placements of long ships with different starting points', () => {
             gameBoard.addShip({x: 7, y: 4}, 5);
 
             expect(gameBoard.addShip({x: 7, y: 2}, 4)).toBe(false);
@@ -120,6 +120,21 @@ describe('Game Board object', () => {
 
             expect(state[7][2]).toBe(0);
         });
+
+        it('can place ships in four orientations - north (0), east (1), south (2), west (3)', () => {
+            gameBoard.addShip({x: 4, y: 4}, 2, 0);
+            gameBoard.addShip({x: 7, y: 4}, 2, 1);
+            gameBoard.addShip({x: 1, y: 2}, 2, 2);
+            gameBoard.addShip({x: 8, y: 7}, 2, 3);
+            state = gameBoard.getBoardState();
+
+            expect(state[4][5]).toBe(1);
+            expect(state[8][4]).toBe(2);
+            expect(state[1][1]).toBe(3);
+            expect(state[7][7]).toBe(4);
+        });
+
+        
 
     });
 
