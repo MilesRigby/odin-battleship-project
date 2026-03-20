@@ -11,6 +11,7 @@ const GameBoard = () => {
     const addShip = (pos) => {
         state[pos.x][pos.y] = nextShip;
         nextShip++;
+        return true;
     }
 
     const receiveAttack = (pos) => {

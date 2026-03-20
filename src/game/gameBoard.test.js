@@ -68,7 +68,9 @@ describe('Game Board object', () => {
             expect(state[5][9]).toBe(3);
         });
 
-        //it('returns true if position is not already occupied')
+        it('returns true if position is not already occupied', () => {
+            expect(gameBoard.addShip({x: 7, y: 3})).toBe(true);
+        })
 
     });
 
