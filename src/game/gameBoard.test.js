@@ -76,13 +76,13 @@ describe('Game Board object', () => {
             expect(gameBoard.addShip({x: 3, y: 3})).toBe(false);
         });
 
-        /*it('does not change the value at an occupied position', () => {
+        it('does not change the value at an occupied position', () => {
             gameBoard.addShip({x: 7, y: 1});
             gameBoard.addShip({x: 7, y: 1});
             state = gameBoard.getBoardState();
 
             expect(state[7][1]).toBe(1);
-        })*/
+        });
 
     });
 
