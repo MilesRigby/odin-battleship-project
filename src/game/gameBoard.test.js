@@ -167,6 +167,17 @@ describe('Game Board object', () => {
             expect(gameBoard.receiveAttack({x: 8, y: 9})).toBe(true);
         });
 
+        it('does nothign to previously missed spaces', () => {
+            gameBoard.receiveAttack({x: 7, y: 4});
+            gameBoard.receiveAttack({x: 7, y: 4});
+            gameBoard.receiveAttack({x: 8, y: 9});
+            gameBoard.receiveAttack({x: 8, y: 9});
+            state = gameBoard.getBoardState();
+
+            expect(state[7][4]).toBe(-1);
+            expect(state[8][9]).toBe(-1);
+        })
+
         it('returns false when targeting a previously missed space', () => {
             gameBoard.receiveAttack({x: 7, y: 4});
             gameBoard.receiveAttack({x: 3, y: 2});
