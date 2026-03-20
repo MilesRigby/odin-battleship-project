@@ -84,6 +84,15 @@ describe('Game Board object', () => {
             expect(state[7][1]).toBe(1);
         });
 
+        it('does not increment the ship number after a failed placement', () => {
+            gameBoard.addShip({x: 7, y: 1});
+            gameBoard.addShip({x: 7, y: 1});
+            gameBoard.addShip({x: 6, y: 3});
+            state = gameBoard.getBoardState();
+
+            expect(state[6][3]).toBe(2);
+        });
+
     });
 
     describe('receiveAttack()', () => {
