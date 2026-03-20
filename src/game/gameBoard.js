@@ -57,6 +57,11 @@ const GameBoard = () => {
             return true;
         }
 
+        if (state[pos.x][pos.y] > 0) {
+            state[pos.x][pos.y] = -2;
+            return true;
+        }
+
         return false;
     }
 
