@@ -2,8 +2,11 @@ import ShipConstructor from './ship.js';
 
 const GameBoard = (Ship = ShipConstructor) => {
 
+    // The size of the battleship game board
+    const BOARD_SIZE = 10;
+
     // The current game board state
-    const state = Array.from({ length: 10 }, () => new Array(10).fill(0));
+    const state = Array.from({ length: BOARD_SIZE }, () => new Array(BOARD_SIZE).fill(0));
 
     // The ship objects represented on the gameBoard by numbers 1, 2, 3...
     const ships = [];
@@ -28,6 +31,7 @@ const GameBoard = (Ship = ShipConstructor) => {
         const positions = _determinePlacementPositions(start, length, orientation);
 
         for (const pos of positions) {
+            if (pos.x >= BOARD_SIZE || pos.x < 0 || pos.y >= BOARD_SIZE || pos.y < 0 ) return false;
             if (state[pos.x][pos.y]) {
                 return false;
             }

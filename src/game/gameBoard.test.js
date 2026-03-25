@@ -134,10 +134,16 @@ describe('Game Board object', () => {
             expect(state[7][7]).toBe(4);
         });
 
-        it ('can detect collisions between ships at different orientations', () => {
+        it('can detect collisions between ships at different orientations', () => {
             gameBoard.addShip({x: 4, y: 4}, 5, 0);
             expect(gameBoard.addShip({x: 2, y: 7}, 5, 1)).toBe(false);
             expect(gameBoard.addShip({x: 4, y: 9}, 2, 2)).toBe(false);
+        });
+
+        it('does not place ships that would extend past the board edge', () => {
+            expect(gameBoard.addShip({x: 4, y: 7}, 5, 0)).toBe(false);
+            expect(gameBoard.addShip({x: 2, y: 7}, 5, 3)).toBe(false);
+            expect(gameBoard.addShip({x: 9, y: 9}, 2, 1)).toBe(false);
         });
 
     });
