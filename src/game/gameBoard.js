@@ -76,10 +76,15 @@ const GameBoard = (Ship = ShipConstructor) => {
         return false;
     }
 
+    const allSunk = () => {
+        return false;
+    }
+
     return {
         getBoardState,
         addShip,
-        receiveAttack
+        receiveAttack,
+        allSunk
     }
 
 }

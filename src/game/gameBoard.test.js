@@ -250,4 +250,20 @@ describe('Game Board object', () => {
         });
     });
 
+    describe('allSunk()', () => {
+
+        beforeEach(() => {
+            gameBoard.addShip({x: 3, y: 7}, 3, 1);
+            gameBoard.addShip({x: 8, y: 1}, 2, 2);
+        });
+
+        it('returns false when no ships have been hit', () => {
+            gameBoard.receiveAttack({x: 7, y: 8});
+            gameBoard.receiveAttack({x: 3, y: 5});
+            gameBoard.receiveAttack({x: 5, y: 1});
+
+            expect(gameBoard.allSunk()).toBe(false);
+        });
+    });
+
 });
