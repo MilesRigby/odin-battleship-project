@@ -77,7 +77,7 @@ const GameBoard = (Ship = ShipConstructor) => {
     }
 
     const allSunk = () => {
-        return false;
+        return ships[0].isSunk();
     }
 
     return {

@@ -264,6 +264,16 @@ describe('Game Board object', () => {
 
             expect(gameBoard.allSunk()).toBe(false);
         });
+
+        it('returns true when all ships have been sunk', () => {
+            gameBoard.receiveAttack({x: 3, y: 7});
+            gameBoard.receiveAttack({x: 4, y: 7});
+            gameBoard.receiveAttack({x: 5, y: 7});
+            gameBoard.receiveAttack({x: 8, y: 1});
+            gameBoard.receiveAttack({x: 8, y: 0});
+
+            expect(gameBoard.allSunk()).toBe(true);
+        });
     });
 
 });
