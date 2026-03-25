@@ -275,11 +275,22 @@ describe('Game Board object', () => {
             expect(gameBoard.allSunk()).toBe(true);
         });
 
-        it('returns false when some, but not all, ships are sunk', () => {
-            gameBoard.receiveAttack({x: 8, y: 1});
-            gameBoard.receiveAttack({x: 8, y: 0});
+        describe('returns false when some, but not all, ships are sunk', () => {
 
-            expect(gameBoard.allSunk()).toBe(true);
+            test('only the first of two ships sunk', () => {
+                gameBoard.receiveAttack({x: 3, y: 7});
+                gameBoard.receiveAttack({x: 4, y: 7});
+                gameBoard.receiveAttack({x: 5, y: 7});
+
+                expect(gameBoard.allSunk()).toBe(false);
+            });
+
+            test('only the second of two ships sunk', () => {
+                gameBoard.receiveAttack({x: 8, y: 1});
+                gameBoard.receiveAttack({x: 8, y: 0});
+
+                expect(gameBoard.allSunk()).toBe(false);
+            });
         });
     });
 
