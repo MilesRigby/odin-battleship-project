@@ -257,7 +257,7 @@ describe('Game Board object', () => {
             gameBoard.addShip({x: 8, y: 1}, 2, 2);
         });
 
-        it('returns false when no ships have been hit', () => {
+        it('returns false when no ships have been sunk', () => {
             gameBoard.receiveAttack({x: 7, y: 8});
             gameBoard.receiveAttack({x: 3, y: 5});
             gameBoard.receiveAttack({x: 5, y: 1});
@@ -269,6 +269,13 @@ describe('Game Board object', () => {
             gameBoard.receiveAttack({x: 3, y: 7});
             gameBoard.receiveAttack({x: 4, y: 7});
             gameBoard.receiveAttack({x: 5, y: 7});
+            gameBoard.receiveAttack({x: 8, y: 1});
+            gameBoard.receiveAttack({x: 8, y: 0});
+
+            expect(gameBoard.allSunk()).toBe(true);
+        });
+
+        it('returns false when some, but not all, ships are sunk', () => {
             gameBoard.receiveAttack({x: 8, y: 1});
             gameBoard.receiveAttack({x: 8, y: 0});
 
