@@ -30,14 +30,20 @@ const GameEvents = (UIController) => {
 
             UIController.DisplayPlayerName(playerIndex, playerName);
 
+            UIController.DisplayShips(playerIndex, 'true');
+
             for (const shipLength of shipLengths) {
                 await _addShip(player, shipLength);
                 UIController.UpdateBoard(playerIndex, player.board.getBoardState())
             }
 
+            UIController.DisplayShips(playerIndex, 'false');
+
             UIController.SetBoardTargetLogic(cb_TargetSpace, playerIndex);
 
         }
+
+        _StartTurn();
     }
 
     const _addShip = async (player, shipLength) => {
@@ -68,8 +74,14 @@ const GameEvents = (UIController) => {
         }
     }
 
+    const _StartTurn = () => {
+        UIController.DisplayShips(currentPlayer, 'true');
+    }
+
     const _EndTurn = () => {
+        UIController.DisplayShips(currentPlayer, 'false');
         currentPlayer = 1 - currentPlayer;
+        _StartTurn();
     }
 
     const _PlayerWin = () => {

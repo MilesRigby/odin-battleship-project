@@ -38,7 +38,7 @@
     height: 3vw;
 }
 
-.board-cell[data-state='ship'] {
+.game-board[data-active='true'] .board-cell[data-state='ship'] {
 
     background-color: green;
 

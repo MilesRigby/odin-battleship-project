@@ -6,11 +6,11 @@ const contentObject = {
     "div": { attributes: { "id": "page-content" }, children: [
         {"div": { attributes: { "className": "player" }, children: [
             {"h3": { attributes: { "className": "player-name" }, children: []}},
-            {"div": { attributes: { "className": "game-board" }, children: GameBoardUI()}}
+            {"div": { attributes: { "className": "game-board", "data-active": "false" }, children: GameBoardUI()}}
         ]}},
         {"div": { attributes: { "className": "player" }, children: [
             {"h3": { attributes: { "className": "player-name" }, children: []}},
-            {"div": { attributes: { "className": "game-board" }, children: GameBoardUI()}}
+            {"div": { attributes: { "className": "game-board", "data-active": "false" }, children: GameBoardUI()}}
         ]}},
     ]}
 
@@ -55,11 +55,16 @@ const page = () => {
         }
     }
 
+    const DisplayShips = (player, shouldDisplay) => {
+        boards[player].dataset.active = shouldDisplay;
+    }
+
     return {
         pageContent,
         DisplayPlayerName,
         SetBoardTargetLogic,
         UpdateBoard,
+        DisplayShips
     }
 
 }
