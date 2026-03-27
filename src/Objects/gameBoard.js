@@ -30,7 +30,7 @@ const GameBoard = (Ship = ShipConstructor) => {
 
         const positions = _determinePlacementPositions(start, length, orientation);
 
-        if (!_validPlacement(positions)) return false;
+        if (!_isValidPlacement(positions)) return false;
 
         _placeShip(positions);
         ships.push(Ship(length));
@@ -43,7 +43,7 @@ const GameBoard = (Ship = ShipConstructor) => {
         const dir = directions[orientation];
 
         const positions = [];
-        for (i=0; i<length; i++) { 
+        for (let i=0; i<length; i++) { 
             positions.push({x: start.x + i*dir.x, y: start.y + i*dir.y}); 
         }
 
@@ -52,7 +52,7 @@ const GameBoard = (Ship = ShipConstructor) => {
 
     // Helper function for addShip to determine if the positions required by a ship placement are available
     // Detects both collisions with other ships and the edge of the board
-    const _validPlacement = (positions) => {
+    const _isValidPlacement = (positions) => {
         for (const pos of positions) {
             if (pos.x >= BOARD_SIZE || pos.x < 0 || pos.y >= BOARD_SIZE || pos.y < 0 ) return false;
             if (state[pos.x][pos.y]) return false;
