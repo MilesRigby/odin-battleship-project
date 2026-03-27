@@ -14,10 +14,13 @@ const GameEvents = (UIController) => {
 
     const players = [
         Player('real'),
-        Player('computer')
+        Player('real')
     ];
 
     let currentPlayer = 0;
+
+    let player = players[currentPlayer];
+    let opponent = players[1 - currentPlayer];
 
     const shipLengths = [2, 3, 3, 4, 5];
 
@@ -27,19 +30,21 @@ const GameEvents = (UIController) => {
 
         for (let playerIndex = 0; playerIndex < players.length; playerIndex++) {
             const player = players[playerIndex];
+            const opponent = players[1-playerIndex];
+
             const playerName = (player.type === 'real' ? 'Player': 'Computer') + 
-                               (player.type === players[1 - playerIndex].type ? ` ${playerIndex + 1}` : '');
+                               (player.type === opponent.type ? ` ${playerIndex + 1}` : '');
 
             UIController.DisplayPlayerName(playerIndex, playerName);
 
-            UIController.DisplayShips(playerIndex, 'true');
+            UIController.DisplayShips(playerIndex, !(player.type !== 'real' && opponent.type === 'real') );
 
             for (const shipLength of shipLengths) {
                 await _addShip(player, shipLength);
                 UIController.UpdateBoard(playerIndex, player.board.getBoardState())
             }
 
-            UIController.DisplayShips(playerIndex, 'false');
+            UIController.DisplayShips(playerIndex, opponent.type !== 'real');
 
             UIController.SetBoardTargetLogic(cb_TargetSpace, playerIndex);
 
@@ -77,12 +82,14 @@ const GameEvents = (UIController) => {
     }
 
     const _StartTurn = () => {
-        UIController.DisplayShips(currentPlayer, 'true');
+        UIController.DisplayShips(currentPlayer, !(player.type !== 'real' && opponent.type === 'real') );
     }
 
     const _EndTurn = () => {
-        UIController.DisplayShips(currentPlayer, 'false');
+        UIController.DisplayShips(currentPlayer, opponent.type !== 'real');
         currentPlayer = 1 - currentPlayer;
+        player = players[currentPlayer];
+        opponent = players[1 - currentPlayer];
         UIController.DisplayTurnHandover();
     }
 
