@@ -4,14 +4,23 @@ import GameBoardUI from "./gameBoardUI.js";
 const contentObject = {
 
     "div": { attributes: { "id": "page-content" }, children: [
+
         {"div": { attributes: { "className": "player" }, children: [
-            {"h3": { attributes: { "className": "player-name" }, children: []}},
+            {"p": { attributes: { "className": "player-name" }, children: []}},
             {"div": { attributes: { "className": "game-board", "data-active": "false" }, children: GameBoardUI()}}
         ]}},
         {"div": { attributes: { "className": "player" }, children: [
-            {"h3": { attributes: { "className": "player-name" }, children: []}},
+            {"p": { attributes: { "className": "player-name" }, children: []}},
             {"div": { attributes: { "className": "game-board", "data-active": "false" }, children: GameBoardUI()}}
         ]}},
+
+        {"div": { attributes: { "className": "handover-background", "hidden": "true" }, children: [
+            {"div": { attributes: { "className": "handover-disp" }, children: [
+                {"p": { attributes: { "className": "handover-text"}, children: []}},
+                {"button": { attributes: { "className": "handover-button" }, children: []}}
+            ]}}
+        ]}}
+
     ]}
 
 }
@@ -23,8 +32,23 @@ const page = () => {
     const playerUIs = pageContent.getElementsByClassName("player");
     const boards = [ playerUIs[0].getElementsByClassName("game-board")[0], playerUIs[1].getElementsByClassName("game-board")[0] ];
 
+    const handover = pageContent.getElementsByClassName("handover-background")[0];
+
     const DisplayPlayerName = (player, playerName) => {
         playerUIs[player].getElementsByClassName("player-name")[0].innerText = playerName;
+    }
+
+    const SetupHandover = (StartNextPlayerTurn) => {
+        const disp = handover.getElementsByClassName("handover-disp")[0];
+        disp.getElementsByClassName("handover-text")[0].innerText = "Turn End";
+    
+        const button = disp.getElementsByClassName("handover-button")[0];
+
+        button.innerText = "Continue";
+        button.addEventListener("click", () => {
+            handover.setAttribute("hidden", true);
+            StartNextPlayerTurn();
+        });
     }
 
     const SetBoardTargetLogic = (Logic, player) => {
@@ -59,12 +83,18 @@ const page = () => {
         boards[player].dataset.active = shouldDisplay;
     }
 
+    const DisplayTurnHandover = () => {
+        handover.removeAttribute("hidden");
+    }
+
     return {
         pageContent,
         DisplayPlayerName,
+        SetupHandover,
         SetBoardTargetLogic,
         UpdateBoard,
-        DisplayShips
+        DisplayShips,
+        DisplayTurnHandover
     }
 
 }

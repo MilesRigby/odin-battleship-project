@@ -55,3 +55,55 @@
     background-color: rgb(182, 0, 0);
 
 }
+
+.handover-background[hidden] {
+    display: none;
+}
+
+.handover-background {
+
+    padding: none;
+    margin: none;
+
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    background-color: rgba(0, 0, 0, 0.1);
+
+}
+
+.handover-disp {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 12rem;
+    height: 8rem;
+
+    background-color: white;
+
+}
+
+.handover-text {
+    font-size: 1.5rem;
+
+    position: relative;
+    bottom: 0.3rem;
+}
+
+.handover-button {
+    font-size: 2rem;
+    
+    position: relative;
+    bottom: 1rem;
+}

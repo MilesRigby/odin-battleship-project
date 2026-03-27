@@ -23,6 +23,8 @@ const GameEvents = (UIController) => {
 
     const setup = async () => {
 
+        UIController.SetupHandover(_StartTurn);
+
         for (let playerIndex = 0; playerIndex < players.length; playerIndex++) {
             const player = players[playerIndex];
             const playerName = (player.type === 'real' ? 'Player': 'Computer') + 
@@ -81,7 +83,7 @@ const GameEvents = (UIController) => {
     const _EndTurn = () => {
         UIController.DisplayShips(currentPlayer, 'false');
         currentPlayer = 1 - currentPlayer;
-        _StartTurn();
+        UIController.DisplayTurnHandover();
     }
 
     const _PlayerWin = () => {
