@@ -107,3 +107,32 @@
     position: relative;
     bottom: 1rem;
 }
+
+.victory-disp[hidden] {
+    display: none;
+}
+
+.victory-disp {
+
+    width: 40rem;
+    height: 14rem;
+
+    position: absolute;
+    top: 40vh;
+    left: calc(50vw - 20rem);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background-color: rgb(217, 244, 255);
+
+}
+
+.victory-text {
+    font-size: 3rem;
+
+    position: relative;
+    bottom: 0.3rem;
+}

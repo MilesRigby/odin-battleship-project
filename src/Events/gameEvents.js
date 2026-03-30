@@ -117,6 +117,9 @@ const GameEvents = (UIController) => {
     }
 
     const _PlayerWin = () => {
+
+        UIController.temps.DisplayVictory(currentPlayer, player.type === 'real');
+
         currentPlayer = 2;
     }
 

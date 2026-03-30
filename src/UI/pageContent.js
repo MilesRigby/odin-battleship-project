@@ -19,6 +19,10 @@ const contentObject = {
                 {"p": { attributes: { "className": "handover-text"}, children: []}},
                 {"button": { attributes: { "className": "handover-button" }, children: []}}
             ]}}
+        ]}},
+
+        {"div": { attributes: { "className": "victory-disp", "hidden": "true" }, children: [
+            {"p": { attributes: { "className": "victory-text"}, children: []}}
         ]}}
 
     ]}
@@ -87,6 +91,21 @@ const page = () => {
         handover.removeAttribute("hidden");
     }
 
+
+    const victoryDisp = pageContent.getElementsByClassName("victory-disp")[0];
+    const victoryText = victoryDisp.getElementsByClassName("victory-text")[0];
+
+    const DisplayVictory = (player, real) => {
+        const playerName = playerUIs[player].getElementsByClassName("player-name")[0].textContent;
+        let message;
+
+        if (real) { message = "Congratulations " + playerName + "!"; }
+        else { message = playerName + " wins." }
+
+        victoryText.textContent = message;
+        victoryDisp.removeAttribute("hidden");
+    }
+
     return {
         content: { pageContent },
         setup: {
@@ -99,7 +118,8 @@ const page = () => {
             DisplayShips
         },
         temps: {
-            DisplayTurnHandover
+            DisplayTurnHandover,
+            DisplayVictory
         }
     }
 
