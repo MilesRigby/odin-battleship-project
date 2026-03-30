@@ -4,7 +4,7 @@ import GameEvents from "./Events/gameEvents.js";
 
 const page = pageConstructor();
 
-document.body.appendChild(page.pageContent);
+document.body.appendChild(page.content.pageContent);
 
 const gameEvents = GameEvents(page);
 

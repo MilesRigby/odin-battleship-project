@@ -88,13 +88,19 @@ const page = () => {
     }
 
     return {
-        pageContent,
-        DisplayPlayerName,
-        SetupHandover,
-        SetBoardTargetLogic,
-        UpdateBoard,
-        DisplayShips,
-        DisplayTurnHandover
+        content: { pageContent },
+        setup: {
+            DisplayPlayerName,
+            SetupHandover,
+            SetBoardTargetLogic
+        },
+        runtime: {
+            UpdateBoard,
+            DisplayShips
+        },
+        temps: {
+            DisplayTurnHandover
+        }
     }
 
 }

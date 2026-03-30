@@ -4,7 +4,7 @@ const GameEvents = (UIController) => {
 
     const players = [
         Player('real'),
-        Player('real')
+        Player('computer')
     ];
 
     let currentPlayer = 0;
@@ -16,7 +16,7 @@ const GameEvents = (UIController) => {
 
     const setup = async () => {
 
-        UIController.SetupHandover(_StartTurn);
+        UIController.setup.SetupHandover(_StartTurn);
 
         for (let playerIndex = 0; playerIndex < players.length; playerIndex++) {
             const player = players[playerIndex];
@@ -25,19 +25,19 @@ const GameEvents = (UIController) => {
             const playerName = (player.type === 'real' ? 'Player': 'Computer') + 
                                (player.type === opponent.type ? ` ${playerIndex + 1}` : '');
 
-            UIController.DisplayPlayerName(playerIndex, playerName);
+            UIController.setup.DisplayPlayerName(playerIndex, playerName);
 
-            UIController.DisplayShips(playerIndex, !(player.type !== 'real' && opponent.type === 'real') );
+            UIController.runtime.DisplayShips(playerIndex, !(player.type !== 'real' && opponent.type === 'real') );
 
             for (const shipLength of shipLengths) {
                 await _addShip(player, shipLength);
-                UIController.UpdateBoard(playerIndex, player.board.getBoardState())
+                UIController.runtime.UpdateBoard(playerIndex, player.board.getBoardState())
             }
 
-            UIController.DisplayShips(playerIndex, opponent.type !== 'real');
+            UIController.runtime.DisplayShips(playerIndex, opponent.type !== 'real');
 
             if (opponent.type === 'real') {
-                UIController.SetBoardTargetLogic(cb_TargetSpace, playerIndex);
+                UIController.setup.SetBoardTargetLogic(cb_TargetSpace, playerIndex);
             }
 
         }
@@ -71,7 +71,7 @@ const GameEvents = (UIController) => {
 
         const targetBoard = players[board].board;
         if ( targetBoard.receiveAttack(pos) ) {
-            UIController.UpdateBoard(board, targetBoard.getBoardState())
+            UIController.runtime.UpdateBoard(board, targetBoard.getBoardState())
 
             if (targetBoard.allSunk()) { _PlayerWin(); }
             else { _EndTurn(); }
@@ -83,7 +83,7 @@ const GameEvents = (UIController) => {
     }
 
     const _StartTurn = async () => {
-        UIController.DisplayShips(currentPlayer, !(player.type !== 'real' && opponent.type === 'real') );
+        UIController.runtime.DisplayShips(currentPlayer, !(player.type !== 'real' && opponent.type === 'real') );
 
         if ( player.type !== 'real' ) {
             await new Promise((resolve) => setTimeout(() => {resolve()}, 1000));
@@ -102,13 +102,13 @@ const GameEvents = (UIController) => {
     }
 
     const _EndTurn = () => {
-        UIController.DisplayShips(currentPlayer, opponent.type !== 'real');
+        UIController.runtime.DisplayShips(currentPlayer, opponent.type !== 'real');
         currentPlayer = 1 - currentPlayer;
         player = players[currentPlayer];
         opponent = players[1 - currentPlayer];
 
         if ( player.type === 'real' && opponent.type === 'real' ) {
-            UIController.DisplayTurnHandover();
+            UIController.temps.DisplayTurnHandover();
         }
 
         if ( player.type !== 'real' ) {
