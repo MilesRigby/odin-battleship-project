@@ -1,20 +1,10 @@
 import Player from '../Objects/player.js';
 
-// Temporary hard coded ship placements for UI testing
-const shipPlacements = [
-    [ {x: 4, y: 1}, 1 ],
-    [ {x: 7, y: 5}, 2 ],
-    [ {x: 1, y: 2}, 0 ],
-    [ {x: 3, y: 4}, 3 ], // Clashes with above ship, should not get placed resulting in five identical ship placements per board
-    [ {x: 8, y: 8}, 3 ],
-    [ {x: 3, y: 8}, 2 ],
-];
-
 const GameEvents = (UIController) => {
 
     const players = [
         Player('real'),
-        Player('computer')
+        Player('real')
     ];
 
     let currentPlayer = 0;
@@ -46,7 +36,7 @@ const GameEvents = (UIController) => {
 
             UIController.DisplayShips(playerIndex, opponent.type !== 'real');
 
-            if (player.type !== 'real') {
+            if (opponent.type === 'real') {
                 UIController.SetBoardTargetLogic(cb_TargetSpace, playerIndex);
             }
 
@@ -64,8 +54,13 @@ const GameEvents = (UIController) => {
 
     let shipNum = 0;
     const _getShipPlacement = () => {
-        const shipPlacement = shipPlacements[shipNum];
-        shipNum = (shipNum + 1) % shipPlacements.length;
+        const shipPos = {
+            x: Math.floor(Math.random() * 10),
+            y: Math.floor(Math.random() * 10)
+        }
+        const shipOrientation = Math.floor(Math.random() * 4);
+
+        const shipPlacement = [shipPos, shipOrientation];
         return new Promise((resolve) => {
             resolve(shipPlacement);
         });
