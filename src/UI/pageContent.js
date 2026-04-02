@@ -23,7 +23,17 @@ const contentObject = {
 
         {"div": { attributes: { "className": "victory-disp", "hidden": "true" }, children: [
             {"p": { attributes: { "className": "victory-text"}, children: []}}
-        ]}}
+        ]}},
+
+        {"form": { attributes: { "className": "ship-form", "hidden": "true" }, children: [
+            {"label": { attributes: { "for": "ship-x-pos" }, children: []}},
+            {"input": { attributes: { "id": "ship-x-pos", "type": "text", "name": "xPos", "placeholder": "x: 1-10" }, children: []}},
+            {"label": { attributes: { "for": "ship-y-pos" }, children: []}},
+            {"input": { attributes: { "id": "ship-y-pos", "type": "text", "name": "yPos", "placeholder": "y: 1-10" }, children: []}},
+            {"label": { attributes: { "for": "ship-orientation" }, children: []}},
+            {"input": { attributes: { "id": "ship-orientation", "type": "text", "name": "orientation", "placeholder": "1-4 (N/E/S/W)" }, children: []}},
+            {"button": { attributes: { "type": "submit", "hidden": "true" }, children: [] }}
+        ]}},
 
     ]}
 
@@ -106,6 +116,31 @@ const page = () => {
         victoryDisp.removeAttribute("hidden");
     }
 
+
+    const shipPosForm = pageContent.getElementsByClassName("ship-form")[0];
+    let sendShipData;
+    shipPosForm.addEventListener("submit", (event) => {
+        
+        event.preventDefault();
+
+        const formData = new FormData(event.target);
+        const data = {};
+        for (let [ key, value ] of formData.entries() ) {
+            data[key] = value;
+        }
+        
+        const shipData = [{ x: data.xPos - 1, y: data.yPos - 1 }, data.orientation ];
+        sendShipData(shipData);
+
+        shipPosForm.setAttribute("hidden", true);
+        
+    });
+
+    const DisplayShipPosForm = (dataSender) => {
+        sendShipData = dataSender;
+        shipPosForm.removeAttribute("hidden");
+    }
+
     return {
         content: { pageContent },
         setup: {
@@ -119,7 +154,8 @@ const page = () => {
         },
         temps: {
             DisplayTurnHandover,
-            DisplayVictory
+            DisplayVictory,
+            DisplayShipPosForm
         }
     }
 

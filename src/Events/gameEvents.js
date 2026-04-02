@@ -18,14 +18,19 @@ const GameEvents = (UIController) => {
 
         UIController.setup.SetupHandover(_StartTurn);
 
+        const playerName = (player.type === 'real' ? 'Player': 'Computer') + 
+                           (player.type === opponent.type ? ` 1` : '');
+        
+        UIController.setup.DisplayPlayerName(0, playerName);
+
+        const opponentName = (opponent.type === 'real' ? 'Player': 'Computer') + 
+                           (opponent.type === player.type ? ` 2` : '');
+        
+        UIController.setup.DisplayPlayerName(1, opponentName);
+
         for (let playerIndex = 0; playerIndex < players.length; playerIndex++) {
             const player = players[playerIndex];
             const opponent = players[1-playerIndex];
-
-            const playerName = (player.type === 'real' ? 'Player': 'Computer') + 
-                               (player.type === opponent.type ? ` ${playerIndex + 1}` : '');
-
-            UIController.setup.DisplayPlayerName(playerIndex, playerName);
 
             UIController.runtime.DisplayShips(playerIndex, !(player.type !== 'real' && opponent.type === 'real') );
 
@@ -47,23 +52,30 @@ const GameEvents = (UIController) => {
 
     const _addShip = async (player, shipLength) => {
         while (true) {
-            const shipPlacement = await _getShipPlacement();
+            const shipPlacement = await _getShipPlacement(player);
             if ( player.board.addShip(shipPlacement[0], shipLength, shipPlacement[1]) ) break;
         }
     }
 
-    let shipNum = 0;
-    const _getShipPlacement = () => {
-        const shipPos = {
-            x: Math.floor(Math.random() * 10),
-            y: Math.floor(Math.random() * 10)
-        }
-        const shipOrientation = Math.floor(Math.random() * 4);
+    const _getShipPlacement = (player) => {
 
-        const shipPlacement = [shipPos, shipOrientation];
-        return new Promise((resolve) => {
-            resolve(shipPlacement);
-        });
+        if (player.type === 'real') {
+            return new Promise((resolve) => {
+                UIController.temps.DisplayShipPosForm(resolve);
+            });
+
+        } else {
+            const shipPos = {
+                x: Math.floor(Math.random() * 10),
+                y: Math.floor(Math.random() * 10)
+            }
+            const shipOrientation = Math.floor(Math.random() * 4);
+
+            const shipPlacement = [shipPos, shipOrientation];
+            return new Promise((resolve) => {
+                resolve(shipPlacement);
+            });
+        }
     }
 
     const cb_TargetSpace = (pos, board) => {

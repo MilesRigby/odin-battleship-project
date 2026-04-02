@@ -3,9 +3,9 @@
     width: 80vw;
     justify-self: center;
 
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 0.5fr;
 
 }
 
@@ -135,4 +135,24 @@
 
     position: relative;
     bottom: 0.3rem;
+}
+
+.ship-form[hidden] {
+    display: none;
+}
+
+.ship-form {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    grid-column: 1 / 3;
+
+}
+
+.ship-form input {
+    margin-top: 0.5rem;
+    font-size: 1rem;
 }
