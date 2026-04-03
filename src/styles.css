@@ -5,7 +5,7 @@
 
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 0.5fr;
+    grid-template-rows: 1fr 0.6fr;
 
 }
 
@@ -154,7 +154,7 @@
     align-self: center;
     justify-self: center;
 
-    width: 20vh;
+    width: 20vw;
 
     display: flex;
     flex-direction: column;
@@ -163,12 +163,21 @@
 
     grid-column: 1 / 3;
 
+    background: whitesmoke;
+
     border-style: solid;
+    border-radius: 2.5rem;
+
+    box-shadow:
+    lightsteelblue 0 0 0 2px,
+    black 0 0 0 4px;
+
+    font-size: 1.2rem;
 
 }
 
 .ship-form input {
-    margin-top: 0.5rem;
+    margin-bottom: 1rem;
     font-size: 1rem;
 }
 

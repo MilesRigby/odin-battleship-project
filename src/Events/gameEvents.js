@@ -13,8 +13,6 @@ const GameEvents = (UIController) => {
 
     const setup = async (playerTypes) => {
 
-        console.log(playerTypes);
-
         players = [
             Player(playerTypes[0]),
             Player(playerTypes[1])
@@ -42,7 +40,7 @@ const GameEvents = (UIController) => {
             UIController.runtime.DisplayShips(playerIndex, !(player.type !== 'real' && opponent.type === 'real') );
 
             for (const shipLength of shipLengths) {
-                await _addShip(player, shipLength);
+                await _addShip(playerIndex, shipLength);
                 UIController.runtime.UpdateBoard(playerIndex, player.board.getBoardState())
             }
 
@@ -57,18 +55,18 @@ const GameEvents = (UIController) => {
         _StartTurn();
     }
 
-    const _addShip = async (player, shipLength) => {
+    const _addShip = async (playerIndex, shipLength) => {
         while (true) {
-            const shipPlacement = await _getShipPlacement(player);
-            if ( player.board.addShip(shipPlacement[0], shipLength, shipPlacement[1]) ) break;
+            const shipPlacement = await _getShipPlacement(playerIndex, shipLength);
+            if ( players[playerIndex].board.addShip(shipPlacement[0], shipLength, shipPlacement[1]) ) break;
         }
     }
 
-    const _getShipPlacement = (player) => {
+    const _getShipPlacement = (playerIndex, shipLength) => {
 
-        if (player.type === 'real') {
+        if (players[playerIndex].type === 'real') {
             return new Promise((resolve) => {
-                UIController.temps.DisplayShipPosForm(resolve);
+                UIController.temps.DisplayShipPosForm(resolve, playerIndex, shipLength);
             });
 
         } else {

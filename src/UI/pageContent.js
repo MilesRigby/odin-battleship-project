@@ -175,8 +175,13 @@ const page = () => {
         
     });
 
-    const DisplayShipPosForm = (dataSender) => {
+    const shipMessageField = shipPosForm.getElementsByClassName("ship-form-head")[0];
+    const DisplayShipPosForm = (dataSender, player, length) => {
         sendShipData = dataSender;
+        const playerName = playerUIs[player].getElementsByClassName("player-name")[0].textContent
+        const shipPosMessage = playerName + ", place ship of length " + length;
+
+        shipMessageField.textContent = shipPosMessage;
         shipPosForm.removeAttribute("hidden");
     }
 
