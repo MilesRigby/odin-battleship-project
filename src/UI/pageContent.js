@@ -26,6 +26,7 @@ const contentObject = {
         ]}},
 
         {"form": { attributes: { "className": "ship-form", "hidden": "true" }, children: [
+            {"p": { attributes: { "className": "ship-form-head" }, children: []}},
             {"label": { attributes: { "for": "ship-x-pos" }, children: []}},
             {"input": { attributes: { "id": "ship-x-pos", "type": "text", "name": "xPos", "placeholder": "x: 1-10" }, children: []}},
             {"label": { attributes: { "for": "ship-y-pos" }, children: []}},
@@ -34,6 +35,27 @@ const contentObject = {
             {"input": { attributes: { "id": "ship-orientation", "type": "text", "name": "orientation", "placeholder": "1-4 (N/E/S/W)" }, children: []}},
             {"button": { attributes: { "type": "submit", "hidden": "true" }, children: [] }}
         ]}},
+
+        {"form": { attributes: { "className": "player-select-form" }, children: [
+            {"p": { attributes: { "innerText": "Select Players" }, children: [] }},
+            {"div": { attributes: { "className": "player-select-options" }, children: [
+                {"div": { attributes: { "className": "select-field" }, children: [
+                    {"label": { attributes: { "for": "player-1-type", "innerText": "Player 1" }, children: []}},
+                    {"select": { attributes: { "id": "player-1-type", "name": "player-1-type" }, children: [
+                        {"option": { attributes: { "value": "real", "innerText": "Human" }, children: []}},
+                        {"option": { attributes: { "value": "computer", "innerText": "Computer" }, children: []}}
+                    ]}}
+                ]}},
+                {"div": {attributes: { "className": "select-field" }, children: [
+                    {"label": { attributes: { "for": "player-2-type", "innerText": "Player 2" }, children: []}},
+                    {"select": { attributes: { "id": "player-2-type", "name": "player-2-type" }, children: [
+                        {"option": { attributes: { "value": "real", "innerText": "Human" }, children: []}},
+                        {"option": { attributes: { "value": "computer", "innerText": "Computer" }, children: []}}
+                    ]}}
+                ]}}
+            ]}},
+            {"button": { attributes: { "type": "submit", "innerText": "Start" }, children: []}}
+        ]}}
 
     ]}
 
@@ -46,12 +68,29 @@ const page = () => {
     const playerUIs = pageContent.getElementsByClassName("player");
     const boards = [ playerUIs[0].getElementsByClassName("game-board")[0], playerUIs[1].getElementsByClassName("game-board")[0] ];
 
-    const handover = pageContent.getElementsByClassName("handover-background")[0];
+    const playerTypeForm = pageContent.getElementsByClassName('player-select-form')[0];
+    const getPlayerTypes = (dataSender) => {
+        playerTypeForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(event.target);
+            
+            const data = [];
+            for ( let [ key, value ] of formData.entries() ) {
+                data.push(value);
+            }
+
+            playerTypeForm.setAttribute("hidden", true);
+
+            dataSender(data);
+        })
+    }
 
     const DisplayPlayerName = (player, playerName) => {
         playerUIs[player].getElementsByClassName("player-name")[0].innerText = playerName;
     }
 
+    const handover = pageContent.getElementsByClassName("handover-background")[0];
     const SetupHandover = (StartNextPlayerTurn) => {
         const disp = handover.getElementsByClassName("handover-disp")[0];
         disp.getElementsByClassName("handover-text")[0].innerText = "Turn End";
@@ -155,7 +194,8 @@ const page = () => {
         temps: {
             DisplayTurnHandover,
             DisplayVictory,
-            DisplayShipPosForm
+            DisplayShipPosForm,
+            getPlayerTypes
         }
     }
 

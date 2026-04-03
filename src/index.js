@@ -8,4 +8,6 @@ document.body.appendChild(page.content.pageContent);
 
 const gameEvents = GameEvents(page);
 
-gameEvents.setup();
+gameEvents.setup(await new Promise((resolve) => {
+    page.temps.getPlayerTypes(resolve);
+}));

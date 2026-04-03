@@ -2,19 +2,26 @@ import Player from '../Objects/player.js';
 
 const GameEvents = (UIController) => {
 
-    const players = [
-        Player('real'),
-        Player('computer')
-    ];
+    let players;
 
     let currentPlayer = 0;
 
-    let player = players[currentPlayer];
-    let opponent = players[1 - currentPlayer];
+    let player;
+    let opponent;
 
     const shipLengths = [2, 3, 3, 4, 5];
 
-    const setup = async () => {
+    const setup = async (playerTypes) => {
+
+        console.log(playerTypes);
+
+        players = [
+            Player(playerTypes[0]),
+            Player(playerTypes[1])
+        ];
+
+        player = players[currentPlayer]
+        opponent = players[1 - currentPlayer]
 
         UIController.setup.SetupHandover(_StartTurn);
 
