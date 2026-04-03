@@ -92,6 +92,14 @@
 
     background-color: white;
 
+    border-style: solid;
+    border-radius: 1.5rem;
+    border-width: 2px;
+
+    box-shadow:
+    whitesmoke 0 0 0 3px,
+    black 0 0 0 5px;
+
 }
 
 .handover-text {
