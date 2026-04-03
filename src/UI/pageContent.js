@@ -28,11 +28,11 @@ const contentObject = {
         {"form": { attributes: { "className": "ship-form", "hidden": "true" }, children: [
             {"p": { attributes: { "className": "ship-form-head" }, children: []}},
             {"label": { attributes: { "for": "ship-x-pos" }, children: []}},
-            {"input": { attributes: { "id": "ship-x-pos", "type": "text", "name": "xPos", "placeholder": "x: 1-10" }, children: []}},
+            {"input": { attributes: { "id": "ship-x-pos", "type": "number", "name": "xPos", "placeholder": "x: 1-10", "min": "1", "max": "10", "required": "true" }, children: []}},
             {"label": { attributes: { "for": "ship-y-pos" }, children: []}},
-            {"input": { attributes: { "id": "ship-y-pos", "type": "text", "name": "yPos", "placeholder": "y: 1-10" }, children: []}},
+            {"input": { attributes: { "id": "ship-y-pos", "type": "number", "name": "yPos", "placeholder": "y: 1-10", "min": "1", "max": "10", "required": "true" }, children: []}},
             {"label": { attributes: { "for": "ship-orientation" }, children: []}},
-            {"input": { attributes: { "id": "ship-orientation", "type": "text", "name": "orientation", "placeholder": "1-4 (N/E/S/W)" }, children: []}},
+            {"input": { attributes: { "id": "ship-orientation", "type": "number", "name": "orientation", "placeholder": "1-4 (N/E/S/W)", "min": "1", "max": "4", "required": "true" }, children: []}},
             {"button": { attributes: { "type": "submit", "hidden": "true" }, children: [] }}
         ]}},
 

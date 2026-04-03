@@ -58,7 +58,7 @@ const GameEvents = (UIController) => {
     const _addShip = async (playerIndex, shipLength) => {
         while (true) {
             const shipPlacement = await _getShipPlacement(playerIndex, shipLength);
-            if ( players[playerIndex].board.addShip(shipPlacement[0], shipLength, shipPlacement[1]) ) break;
+            if ( players[playerIndex].board.addShip(shipPlacement[0], shipLength, shipPlacement[1] - 1) ) break;
         }
     }
 
