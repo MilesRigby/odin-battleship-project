@@ -16,7 +16,7 @@ const contentObject = {
 
         {"div": { attributes: { "className": "handover-background", "hidden": "true" }, children: [
             {"div": { attributes: { "className": "handover-disp" }, children: [
-                {"p": { attributes: { "className": "handover-text"}, children: []}},
+                {"p": { attributes: { "className": "handover-text", "innerText": "Pass Screen" }, children: []}},
                 {"button": { attributes: { "className": "handover-button" }, children: []}}
             ]}}
         ]}},
@@ -93,7 +93,6 @@ const page = () => {
     const handover = pageContent.getElementsByClassName("handover-background")[0];
     const SetupHandover = (StartNextPlayerTurn) => {
         const disp = handover.getElementsByClassName("handover-disp")[0];
-        disp.getElementsByClassName("handover-text")[0].innerText = "Turn End";
     
         const button = disp.getElementsByClassName("handover-button")[0];
 
@@ -168,7 +167,7 @@ const page = () => {
             data[key] = value;
         }
         
-        const shipData = [{ x: data.xPos - 1, y: data.yPos - 1 }, data.orientation ];
+        const shipData = [{ x: data.xPos - 1, y: data.yPos - 1 }, data.orientation - 1 ];
         sendShipData(shipData);
 
         shipPosForm.setAttribute("hidden", true);

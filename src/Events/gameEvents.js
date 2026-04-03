@@ -4,7 +4,7 @@ const GameEvents = (UIController) => {
 
     let players;
 
-    let currentPlayer = 0;
+    let currentPlayer = 1;
 
     let player;
     let opponent;
@@ -24,14 +24,14 @@ const GameEvents = (UIController) => {
         UIController.setup.SetupHandover(_StartTurn);
 
         const playerName = (player.type === 'real' ? 'Player': 'Computer') + 
-                           (player.type === opponent.type ? ` 1` : '');
+                           (player.type === opponent.type ? ` 2` : '');
         
-        UIController.setup.DisplayPlayerName(0, playerName);
+        UIController.setup.DisplayPlayerName(1, playerName);
 
         const opponentName = (opponent.type === 'real' ? 'Player': 'Computer') + 
-                           (opponent.type === player.type ? ` 2` : '');
+                           (opponent.type === player.type ? ` 1` : '');
         
-        UIController.setup.DisplayPlayerName(1, opponentName);
+        UIController.setup.DisplayPlayerName(0, opponentName);
 
         for (let playerIndex = 0; playerIndex < players.length; playerIndex++) {
             const player = players[playerIndex];
@@ -52,13 +52,13 @@ const GameEvents = (UIController) => {
 
         }
 
-        _StartTurn();
+        _EndTurn();
     }
 
     const _addShip = async (playerIndex, shipLength) => {
         while (true) {
             const shipPlacement = await _getShipPlacement(playerIndex, shipLength);
-            if ( players[playerIndex].board.addShip(shipPlacement[0], shipLength, shipPlacement[1] - 1) ) break;
+            if ( players[playerIndex].board.addShip(shipPlacement[0], shipLength, shipPlacement[1]) ) break;
         }
     }
 

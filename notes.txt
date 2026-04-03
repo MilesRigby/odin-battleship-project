@@ -1,5 +1,0 @@
-1. Input validation for ship placement form - require values for x, y, and orientation;
-    subtract 1 from Orientation value before use, check ranges are valid (1-10, 1-10, 1-4).
-    DONE
-
-2. Make sure Player 1's ships don't appear immediately after Player 2 places all of theirs.
