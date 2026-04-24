@@ -16,4 +16,8 @@ describe('Events system', () => {
         expect(events.listen).toEqual(expect.any(Function));
     });
 
+    it('has a function emit', () => {
+        expect(events.emit).toEqual(expect.any(Function));
+    });
+
 });
