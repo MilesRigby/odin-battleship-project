@@ -1,5 +1,7 @@
 const eventsConstructor = () => {
-    return {}
+    return {
+        listen: () => {}
+    }
 }
 
 const events = eventsConstructor();
