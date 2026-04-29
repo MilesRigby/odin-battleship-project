@@ -65,4 +65,12 @@ describe('Events system', () => {
         expect(MockCallbackTwo).toHaveBeenCalled();
     });
 
+    it('passes data to listening callbacks from an emitted event', () => {
+        const MockCallback = jest.fn();
+        const MockData = { item1: "string", item2: 76, item3: {nest: "hello"} }
+        events.listen('eventName', MockCallback);
+        events.emit('eventName', MockData);
+        expect(MockCallback).toHaveBeenCalledWith(MockData);
+    });
+
 });

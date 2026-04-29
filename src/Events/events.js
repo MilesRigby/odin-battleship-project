@@ -3,16 +3,16 @@ const eventsConstructor = () => {
     const events = {};
 
     const listen = (name, fn) => { 
-        if ( !events[name] ) events[name] = []
+        if ( !events[name] ) events[name] = [];
         events[name].push(fn);
     }
 
-    const emit = (name) => { 
+    const emit = (name, data) => { 
         fnArr = events[name];
 
         if (fnArr) {
             for (fn of fnArr) {
-                fn();
+                fn(data);
             }
         }
     }
