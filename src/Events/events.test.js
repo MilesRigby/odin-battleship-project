@@ -33,6 +33,10 @@ describe('Events system', () => {
         expect(MockCallback).toHaveBeenCalled();
     });
 
+    it('doesn\'t break if an emitted event has no listeners', () => {
+        expect(() => { events.emit('eventOne') }).not.toThrow();
+    });
+
     it('only calls a registered callback if a matching name is passed to emit()', () => {
         const MockCallback = jest.fn();
         events.listen('eventName', MockCallback);
@@ -51,7 +55,7 @@ describe('Events system', () => {
         expect(MockCallbackTwo).toHaveBeenCalled();
     });
 
-    it('can store multiple callbacks PER name', () => {
+    it('can store multiple callbacks PER name, calling each on an emit', () => {
         const MockCallbackOne = jest.fn();
         const MockCallbackTwo = jest.fn();
         events.listen('eventOne', MockCallbackOne);
