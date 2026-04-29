@@ -33,4 +33,11 @@ describe('Events system', () => {
         expect(MockCallback).toHaveBeenCalled();
     });
 
+    it('only calls a registered callback if a matching name is passed to emit()', () => {
+        const MockCallback = jest.fn();
+        events.listen('eventName', MockCallback);
+        events.emit('wrongName');
+        expect(MockCallback).not.toHaveBeenCalled();
+    });
+
 });

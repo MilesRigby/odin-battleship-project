@@ -1,10 +1,11 @@
 const eventsConstructor = () => {
 
+    let eventName;
     let event;
 
     return {
-        listen: (name, fn) => { event = fn },
-        emit: () => { event() }
+        listen: (name, fn) => { eventName = name; event = fn },
+        emit: (name) => { if (name === eventName) event() }
     }
 }
 
