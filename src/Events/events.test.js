@@ -40,13 +40,23 @@ describe('Events system', () => {
         expect(MockCallback).not.toHaveBeenCalled();
     });
 
-    it('can store multiple callbacks by name', () => {
+    it('can store multiple callbacks BY name', () => {
         const MockCallbackOne = jest.fn();
         const MockCallbackTwo = jest.fn();
         events.listen('eventOne', MockCallbackOne);
         events.listen('eventTwo', MockCallbackTwo);
         events.emit('eventOne');
         events.emit('eventTwo');
+        expect(MockCallbackOne).toHaveBeenCalled();
+        expect(MockCallbackTwo).toHaveBeenCalled();
+    });
+
+    it('can store multiple callbacks PER name', () => {
+        const MockCallbackOne = jest.fn();
+        const MockCallbackTwo = jest.fn();
+        events.listen('eventOne', MockCallbackOne);
+        events.listen('eventOne', MockCallbackTwo);
+        events.emit('eventOne');
         expect(MockCallbackOne).toHaveBeenCalled();
         expect(MockCallbackTwo).toHaveBeenCalled();
     });
