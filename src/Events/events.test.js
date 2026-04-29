@@ -20,4 +20,11 @@ describe('Events system', () => {
         expect(events.emit).toEqual(expect.any(Function));
     });
 
+    it('calls a callback registered with listen() on emit()', () => {
+        const MockCallback = jest.fn();
+        events.listen('eventName', MockCallback);
+        events.emit('eventName');
+        expect(MockCallback).toHaveBeenCalled();
+    });
+
 });

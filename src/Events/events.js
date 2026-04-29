@@ -1,6 +1,6 @@
 const eventsConstructor = () => {
     return {
-        listen: () => {},
+        listen: (event, fn) => { fn() },
         emit: () => {}
     }
 }
