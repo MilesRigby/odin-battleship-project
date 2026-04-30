@@ -5,17 +5,33 @@ import { eventsConstructor } from "./events.js";
 
 describe('Game logic handler', () => {
 
-    let GameLogicHandler;
+    let MockEvents;
+
+    describe('behaviour on startup (triggered immediately on construction)', () => {
+
+        it('is a function', () => {
+            expect(GameLogic).toEqual(expect.any(Function));
+        });
+
+        it('emits a game_started event', () => {
+            const MockCallback = jest.fn();
+            MockEvents = eventsConstructor();
+            MockEvents.listen('game_started', MockCallback);
+
+            GameLogic({events: MockEvents});
+            expect(MockCallback).toHaveBeenCalled();
+        });
+
+    });
 
     describe('behaviour when initialised, and of features not dependant on state', () => {
 
-        beforeEach(() => {
-            GameLogicHandler = GameLogic(eventsConstructor());
-        });
+        /*beforeEach(() => {
+            MockEvents = eventsConstructor();
+            GameLogic(MockEvents);
+        });*/
 
-        it('is an object', () => {
-            expect(GameLogic()).toEqual(expect.any(Object));
-        });
+        
 
     });
 

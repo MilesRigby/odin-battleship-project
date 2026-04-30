@@ -1,5 +1,9 @@
-const GameLogic = () => {
-    return {}
+import eventsSys from './events.js';
+
+const GameLogic = ({events = eventsSys} = {}) => {
+
+    events.emit('game_started');
+
 }
 
 export { GameLogic }
