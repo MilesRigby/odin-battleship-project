@@ -1,6 +1,6 @@
 import eventsSys from './events.js';
 
-const GameLogic = ({events = eventsSys} = {}) => {
+const GameLogic = (events = eventsSys) => {
 
     events.emit('game_started');
 

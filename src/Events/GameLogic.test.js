@@ -5,7 +5,7 @@ import { eventsConstructor } from "./events.js";
 
 describe('Game logic handler', () => {
 
-    let MockEvents;
+    let events;
 
     describe('behaviour on startup (triggered immediately on construction)', () => {
 
@@ -15,10 +15,10 @@ describe('Game logic handler', () => {
 
         it('emits a game_started event', () => {
             const MockCallback = jest.fn();
-            MockEvents = eventsConstructor();
-            MockEvents.listen('game_started', MockCallback);
+            events = eventsConstructor();
+            events.listen('game_started', MockCallback);
 
-            GameLogic({events: MockEvents});
+            GameLogic(events);
             expect(MockCallback).toHaveBeenCalled();
         });
 
@@ -27,11 +27,11 @@ describe('Game logic handler', () => {
     describe('behaviour when initialised, and of features not dependant on state', () => {
 
         /*beforeEach(() => {
-            MockEvents = eventsConstructor();
-            GameLogic(MockEvents);
-        });*/
+            events = eventsConstructor();
+            GameLogic(events);
+        });
 
-        
+        it()*/
 
     });
 
