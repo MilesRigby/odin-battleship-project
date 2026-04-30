@@ -1,4 +1,4 @@
-import { GameLogic } from "./GameLogic.js";
+import GameLogic from "./GameLogic.js";
 
 import { eventsConstructor } from "./events.js";
 

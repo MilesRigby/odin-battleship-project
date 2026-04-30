@@ -6,4 +6,4 @@ const GameLogic = ({events = eventsSys} = {}) => {
 
 }
 
-export { GameLogic }
+export default GameLogic;
