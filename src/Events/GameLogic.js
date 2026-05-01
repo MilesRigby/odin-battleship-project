@@ -3,8 +3,8 @@ import eventsSys from './events.js';
 const GameLogic = (events = eventsSys) => {
 
     events.listen('player_types_selected', ({playerOneType, playerTwoType}) => {
-        if (playerOneType !== 'real') events.emit('board_state_changed');
-        if (playerTwoType !== 'real') events.emit('board_state_changed');
+        if (playerOneType !== 'real') events.emit('board_state_changed', {board: 1});
+        if (playerTwoType !== 'real') events.emit('board_state_changed', {board: 2});
 
         if (playerOneType === 'real' && playerTwoType === 'real') {
             events.emit('player_ship_placement_required', {player: 'Player 1', length: 0});

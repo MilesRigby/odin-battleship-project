@@ -71,6 +71,25 @@ describe('Game logic handler', () => {
                 });
             });
 
+            describe('emits event:board_state_changed, conveying which board was changed', () => {
+                it('real, computer', () => {
+                    const MockCallback = jest.fn();
+                    events.listen('board_state_changed', MockCallback);
+
+                    events.emit('player_types_selected', {playerOneType: 'real', playerTwoType: 'computer'});
+                    expect(MockCallback).toHaveBeenCalledWith(expect.objectContaining({board: 2}));
+                });
+
+                it('computer, computer', () => {
+                    const MockCallback = jest.fn();
+                    events.listen('board_state_changed', MockCallback);
+
+                    events.emit('player_types_selected', {playerOneType: 'computer', playerTwoType: 'computer'});
+                    expect(MockCallback.mock.calls[0]).toEqual([ expect.objectContaining({board: 1}) ]);
+                    expect(MockCallback.mock.calls[1]).toEqual([ expect.objectContaining({board: 2}) ]);
+                });
+            });
+
         });
 
     });
