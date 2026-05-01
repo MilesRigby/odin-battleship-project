@@ -35,19 +35,17 @@ describe('Game logic handler', () => {
 
             // Order in which the ship lengths 2, 3, 3, 4, and 5 are asked for is an implementation detail
             describe('emits event:player_ship_placement_required if one or both players are human, specifying a ship length and the first player if there are two humans', () => {
-
                 it.each([
                     ['real', 'computer', ''],
                     ['computer', 'real', ''],
                     ['real', 'real', 'Player 1']
-                ])('%s, %s', (p1, p2, o1) => {
+                ])('%s, %s', (i1, i2, o1) => {
                     const MockCallback = jest.fn();
                     events.listen('player_ship_placement_required', MockCallback);
 
-                    events.emit('player_types_selected', {playerOneType: p1, playerTwoType: p2});
+                    events.emit('player_types_selected', {playerOneType: i1, playerTwoType: i2});
                     expect(MockCallback).toHaveBeenCalledWith(expect.objectContaining({player: o1, length: expect.any(Number)}));
                 });
-
             });
 
             // if there are no human players, no manual ship placements are needed
@@ -57,6 +55,20 @@ describe('Game logic handler', () => {
 
                 events.emit('player_types_selected', {playerOneType: 'computer', playerTwoType: 'computer'});
                 expect(MockCallback).not.toHaveBeenCalled();
+            });
+
+            describe('emits event:board_state_changed a number of times equal to the number of CPUs', () => {
+                it.each([
+                    ['real', 'real', 0],
+                    ['real', 'computer', 1],
+                    ['computer', 'computer', 2]
+                ])('%s, %s', (i1, i2, calls) => {
+                    const MockCallback = jest.fn();
+                    events.listen('board_state_changed', MockCallback);
+
+                    events.emit('player_types_selected', {playerOneType: i1, playerTwoType: i2});
+                    expect(MockCallback).toHaveBeenCalledTimes(calls);
+                });
             });
 
         });
