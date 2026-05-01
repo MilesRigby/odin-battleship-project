@@ -50,6 +50,15 @@ describe('Game logic handler', () => {
 
             });
 
+            // if there are no human players, no manual ship placements are needed
+            it('does not emit event:player_ship_placement_required if both players are CPUs', () => {
+                const MockCallback = jest.fn();
+                events.listen('player_ship_placement_required', MockCallback);
+
+                events.emit('player_types_selected', {playerOneType: 'computer', playerTwoType: 'computer'});
+                expect(MockCallback).not.toHaveBeenCalled();
+            });
+
         });
 
     });
