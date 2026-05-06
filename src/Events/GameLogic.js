@@ -3,6 +3,8 @@ import Player from '../Objects/player.js';
 
 const GameLogic = (events = eventsSys) => {
 
+    // Initialises player objects and game boards for CPUs
+    // Starts process of waiting for player ship positions to be chosen
     events.listen('player_types_selected', ({playerOneType, playerTwoType}) => {
         const playerOne = Player(playerOneType);
         const playerTwo = Player(playerTwoType);
@@ -17,12 +19,13 @@ const GameLogic = (events = eventsSys) => {
         }
 
         if (playerOne.type === 'real' && playerTwo.type === 'real') {
-            events.emit('player_ship_placement_required', {player: 'Player 1', length: 0});
+            events.emit('player_ship_placement_required', {player: 'Player 1', length: 2});
         } else if (playerOne.type === 'real' || playerTwo.type === 'real') {
-            events.emit('player_ship_placement_required', {player: '', length: 0});
+            events.emit('player_ship_placement_required', {player: '', length: 2});
         }
     });
 
+    // Populates a CPU's gameboard with randomly generated ships
     const _populateGameBoard = (player) => {
         const shipLengths = [2, 3, 3, 4, 5];
         for ( const length of shipLengths ) {

@@ -36,7 +36,7 @@ describe('Game logic handler', () => {
         describe('on event:player_types_selected', () => {
 
             // Order in which the ship lengths 2, 3, 3, 4, and 5 are asked for is an implementation detail
-            describe('emits event:player_ship_placement_required if one or both players are human, specifying a ship length and the first player if there are two humans', () => {
+            describe('emits event:player_ship_placement_required if one or both players are human, specifying the shortest ship length and the first player if there are two humans', () => {
                 test.each([
                     ['real', 'computer', ''],
                     ['computer', 'real', ''],
@@ -46,7 +46,7 @@ describe('Game logic handler', () => {
                     events.listen('player_ship_placement_required', MockCallback);
 
                     events.emit('player_types_selected', {playerOneType: i1, playerTwoType: i2});
-                    expect(MockCallback).toHaveBeenCalledWith(expect.objectContaining({player: o1, length: expect.any(Number)}));
+                    expect(MockCallback).toHaveBeenCalledWith(expect.objectContaining({player: o1, length: 2}));
                 });
             });
 
@@ -206,7 +206,15 @@ describe('Game logic handler', () => {
 
 
 
-        //
+        describe('on event:ship_placement_submitted', () => {
+
+            /*
+            
+            
+            
+            */
+
+        });
 
 
 
