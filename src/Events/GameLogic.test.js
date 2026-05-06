@@ -210,8 +210,20 @@ describe('Game logic handler', () => {
 
             /*
             
-            
-            
+            it('reports a player's updated board state on a valid ship placement')
+            it('requires a ship of the next length on a valid placement')
+            it('requires a ship of length 2 from the second player if both are human after the first finishes placing')
+            it('requires the same ship again after an invalid placement')
+
+            describe('after all ships are placed', () => {
+
+                it('emits event:turn_started for player 1')
+                it('modifies player 1's board state if they are a computer, changing one space')
+                it('emits event:turn_started for player 2 if player 1 is a computer')
+                it('emits event:player_won if both players are computers, with player number and type info)
+                
+            });
+
             */
 
         });
