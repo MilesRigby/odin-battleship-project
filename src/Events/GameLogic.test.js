@@ -202,6 +202,24 @@ describe('Game logic handler', () => {
                 });
             });
 
+            describe('after filling boards for two computer players', () => {
+
+                /*
+                
+                it('makes a first emit to event:turn_started for player 1');
+                it('makes a first modification to player 1\'s board state, changing one space');
+                it('only modifies board after a setTimeout delay');
+                it('makes a second emit to event:turn_started for player 2');
+                it('makes a second modification to player 2\'s board state, changing one space');
+                it('emits event:turn_started enough times for a full game, at least 33 (17 ship spaces must be hit');
+                it('emits event:board_state_changes an equal number of times as turn_started');
+                it('emits a final board state with 17 -2 and no positive values in it (all ship tiles hit)');
+                it('emits event:player_won for the player opposite to the last board modified');
+                
+                */
+
+            });
+
         });
 
 
@@ -210,17 +228,16 @@ describe('Game logic handler', () => {
 
             /*
             
-            it('reports a player's updated board state on a valid ship placement')
-            it('requires a ship of the next length on a valid placement')
-            it('requires a ship of length 2 from the second player if both are human after the first finishes placing')
-            it('requires the same ship again after an invalid placement')
+            it('reports a player\'s updated board state on a valid ship placement');
+            it('requires a ship of the next length on a valid placement');
+            it('requires a ship of length 2 from the second player if both are human after the first finishes placing');
+            it('requires the same ship again after an invalid placement');
 
             describe('after all ships are placed', () => {
 
-                it('emits event:turn_started for player 1')
-                it('modifies player 1's board state if they are a computer, changing one space')
-                it('emits event:turn_started for player 2 if player 1 is a computer')
-                it('emits event:player_won if both players are computers, with player number and type info)
+                it('starts player 1\'s turn');
+                it('modifies player 1\'s board state if they are a computer, changing one space');
+                it('starts player 2\'s turn');
                 
             });
 
