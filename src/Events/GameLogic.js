@@ -29,7 +29,9 @@ const GameLogic = (events = eventsSys) => {
     const _populateGameBoard = (player) => {
         const shipLengths = [2, 3, 3, 4, 5];
         for ( const length of shipLengths ) {
-            player.board.addShip({x: Math.floor(Math.random()*10), y: Math.floor(Math.random()*10)}, length, Math.floor(Math.random()*4));
+            while (true) {
+                if (player.board.addShip({x: Math.floor(Math.random()*10), y: Math.floor(Math.random()*10)}, length, Math.floor(Math.random()*4))) break;
+            }
         }
     }
 

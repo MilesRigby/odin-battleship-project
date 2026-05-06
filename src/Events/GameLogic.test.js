@@ -29,6 +29,9 @@ describe('Game logic handler', () => {
         beforeEach(() => {
             events = eventsConstructor();
             GameLogic(events);
+
+            // prevents setTimeout from creating delays
+            jest.spyOn(global, 'setTimeout').mockImplementation((cb) => cb());
         });
 
 
@@ -202,14 +205,51 @@ describe('Game logic handler', () => {
                 });
             });
 
+            it('correctly places all 5 ships when some placements fail', () => {
+                const MockCallback = jest.fn();
+                events.listen('board_state_changed', MockCallback);
+
+                const boardOneExpected = [
+                    [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+                    [ 0, 1, 0, 2, 0, 0, 0, 0, 0, 0 ],
+                    [ 0, 1, 0, 2, 0, 0, 3, 0, 0, 0 ],
+                    [ 0, 0, 0, 2, 0, 0, 3, 0, 0, 0 ],
+                    [ 0, 0, 5, 0, 0, 0, 3, 0, 0, 0 ],
+                    [ 0, 0, 5, 0, 0, 0, 0, 0, 0, 0 ],
+                    [ 0, 0, 5, 0, 0, 4, 4, 4, 4, 0 ],
+                    [ 0, 0, 5, 0, 0, 0, 0, 0, 0, 0 ],
+                    [ 0, 0, 5, 0, 0, 0, 0, 0, 0, 0 ],
+                    [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+                ];
+
+                    // for 10 ships - x, y (0-9), and orientation (0-3)
+                    // Math.random gives 0-1, so 0-9 is 0.05-0.95, and 0-3 is 0.2-0.95, each in equal increments.
+                    const deterministicValues = [
+                        0.15, 0.15, 0.45,
+                        0.95, 0.95, 0.45,
+                        0.15, 0.35, 0.45,
+                        0.25, 0.65, 0.45,
+                        0.65, 0.55, 0.2,
+                        0.85, 0.25, 0.95
+                    ];
+
+                    let v = 0;
+                    jest.spyOn(Math, 'random').mockImplementation(() => deterministicValues[v++]);
+
+                    events.emit('player_types_selected', {playerOneType: 'computer', playerTwoType: 'computer'});
+                    expect(MockCallback.mock.calls[0][0].state).toEqual(boardOneExpected);
+            });
+
             describe('after filling boards for two computer players', () => {
 
                 /*
                 
-                it('makes a first emit to event:turn_started for player 1');
-                it('makes a first modification to player 1\'s board state, changing one space');
+                it('makes a first emit to event:turn_started for player 1')
+                it('updates boards before calling ')
+                it('makes a first modification to player 1\'s board state, changing one space to -1 or -2');
                 it('only modifies board after a setTimeout delay');
                 it('makes a second emit to event:turn_started for player 2');
+                it('does not modify board or start next player\'s turn on invalid shot'); // Math.random and event listeners trigger same jest function with different parameters, these calls can then be read in order
                 it('makes a second modification to player 2\'s board state, changing one space');
                 it('emits event:turn_started enough times for a full game, at least 33 (17 ship spaces must be hit');
                 it('emits event:board_state_changes an equal number of times as turn_started');
@@ -237,7 +277,7 @@ describe('Game logic handler', () => {
 
                 it('starts player 1\'s turn');
                 it('modifies player 1\'s board state if they are a computer, changing one space');
-                it('starts player 2\'s turn');
+                it('starts player 2\'s turn if player 1 was a computer');
                 
             });
 
