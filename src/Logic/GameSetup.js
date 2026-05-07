@@ -4,8 +4,10 @@ import PlayerConstructor from '../Objects/player.js';
 const GameSetup = ({events = eventsSys, Player = PlayerConstructor} = {}) => {
 
     events.listen('player_types_selected', ({playerOneType = 'real', playerTwoType = 'real'} = {}) => {
-        Player(playerOneType);
+        const playerOne = Player(playerOneType);
         Player(playerTwoType);
+
+        events.emit('ship_placement_initialised', {playerObj: playerOne});
     });
 
 }
