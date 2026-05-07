@@ -4,7 +4,7 @@ import Player from '../Objects/player.js';
 const GameLogic = (events = eventsSys) => {
 
     events.listen('setup_completed', () => {
-        events.emit('turn_started');
+        events.emit('turn_started', {activePlayer: 0});
     });
 
 }
