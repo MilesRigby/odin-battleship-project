@@ -1,5 +1,4 @@
 import eventsSys from '../Events/events.js';
-import Player from '../Objects/player.js';
 
 const GameLogic = (events = eventsSys) => {
 
