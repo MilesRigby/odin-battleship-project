@@ -33,4 +33,17 @@ describe('Game logic handler', () => {
 
     });
 
+    describe('on event:turn_ended', () => {
+
+        it('emits event:turn_started', () => {
+            const MockCallback = jest.fn();
+            events.listen('turn_started', MockCallback);
+
+            events.emit('turn_ended')
+
+            expect(MockCallback).toHaveBeenCalled();
+        });
+
+    });
+
 });
