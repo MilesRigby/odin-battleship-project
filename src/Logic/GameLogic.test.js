@@ -35,13 +35,23 @@ describe('Game logic handler', () => {
 
     describe('on event:turn_ended', () => {
 
-        it('emits event:turn_started', () => {
-            const MockCallback = jest.fn();
-            events.listen('turn_started', MockCallback);
+        let MockCallback;
 
-            events.emit('turn_ended')
+        beforeEach(() => {
+            MockCallback = jest.fn();
+            events.listen('turn_started', MockCallback);
+        });
+
+        it('emits event:turn_started', () => {
+            events.emit('turn_ended');
 
             expect(MockCallback).toHaveBeenCalled();
+        });
+
+        it('emits event:turn_started for player 1 after player 0\'s turn ends', () => {
+            events.emit('turn_ended', {activePlayer: 0});
+
+            expect(MockCallback.mock.calls[0][0].activePlayer).toBe(1);
         });
 
     });

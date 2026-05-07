@@ -8,7 +8,7 @@ const GameLogic = (events = eventsSys) => {
     });
 
     events.listen('turn_ended', () => {
-        events.emit('turn_started');
+        events.emit('turn_started', {activePlayer: 1});
     });
 
 }
