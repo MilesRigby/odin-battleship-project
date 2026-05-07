@@ -11,6 +11,8 @@ const GameLogic = (events = eventsSys) => {
         events.emit('turn_started', {activePlayer: 1 - activePlayer});
     });
 
+    events.emit('game_started');
+
 }
 
 export default GameLogic;

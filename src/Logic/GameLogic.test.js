@@ -6,18 +6,34 @@ import { eventsConstructor } from "../Events/events.js";
 describe('Game logic handler', () => {
 
     let events;
+    let MockCallback;
 
     beforeEach(() => {
         events = eventsConstructor();
+        MockCallback = jest.fn();
+    });
+
+    describe('on instantiation', () => {
+
+        it('emits event:game_started', () => {
+            events = eventsConstructor();
+            const MockCallback = jest.fn();
+            events.listen('game_started', MockCallback);
+
+            GameLogic(events);
+
+            expect(MockCallback).toHaveBeenCalled();
+        });
+
+    });
+
+    beforeEach(() => {
         GameLogic(events);
     });
 
     describe('on event:setup_completed', () => {
 
-        let MockCallback;
-
         beforeEach(() => {
-            MockCallback = jest.fn();
             events.listen('turn_started', MockCallback);
 
             events.emit('setup_completed');
@@ -35,10 +51,7 @@ describe('Game logic handler', () => {
 
     describe('on event:turn_ended', () => {
 
-        let MockCallback;
-
         beforeEach(() => {
-            MockCallback = jest.fn();
             events.listen('turn_started', MockCallback);
         });
 
