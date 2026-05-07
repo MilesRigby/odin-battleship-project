@@ -60,13 +60,40 @@ describe('Game setup logic', () => {
 
     describe('on event:ship_placed', () => {
 
-        it('calls add_ship on the received player object\'s gameboard', () => {
-            const MockPlayerObject = {gameboard: {addShip: jest.fn()}}
-            GameSetup({events: events});
-            
-            events.emit('ship_placed', {playerObj: MockPlayerObject});
+        describe('calls addShip on the received player object\'s gameboard', () => {
 
-            expect(MockPlayerObject.gameboard.addShip).toHaveBeenCalled();
+            test('confirm call', () => {
+                const MockPlayerObject = {gameboard: {addShip: jest.fn()}}
+                GameSetup({events: events});
+            
+                events.emit('ship_placed', {playerObj: MockPlayerObject});
+
+                expect(MockPlayerObject.gameboard.addShip).toHaveBeenCalled();
+            });
+
+            describe('called with received position, length, and orientation', () => {
+                
+                test.each([
+                    [1, {x: 2, y: 5}, 3, 2],
+                    [2, {x: 7, y: 3}, 4, 0]
+                ])('case %i', (_case, pos, length, orientation) => {
+                    const MockPlayerObject = {gameboard: {addShip: jest.fn()}}
+                    GameSetup({events: events});
+            
+                    events.emit('ship_placed', {
+                        playerObj: MockPlayerObject, 
+                        pos: pos,
+                        shipLength: length,
+                        orientation: orientation
+                    });
+
+                    expect(MockPlayerObject.gameboard.addShip.mock.calls[0][0]).toEqual(pos);
+                    expect(MockPlayerObject.gameboard.addShip.mock.calls[0][1]).toEqual(length);
+                    expect(MockPlayerObject.gameboard.addShip.mock.calls[0][2]).toEqual(orientation);
+                });
+
+            });
+
         });
 
     });
