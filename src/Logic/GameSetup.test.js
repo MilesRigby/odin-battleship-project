@@ -24,19 +24,26 @@ describe('Game setup logic', () => {
             expect(MockPlayerConstructor.mock.calls[1][0]).toBe(MockPlayerTwoType);
         });
 
-        it('emits event:ship_placement_initialised with the first player object created', () => {
-            const MockPlayerOne = {};
-            const MockPlayerTwo = {};
-            const MockCallback = jest.fn();
-            const MockPlayerConstructor = jest.fn()
-                .mockImplementation(() => MockPlayerOne)
-                .mockImplementation(() => MockPlayerTwo);
-            GameSetup({events: events, Player: MockPlayerConstructor});
-            events.listen('ship_placement_initialised', MockCallback);
+        describe('emits event:ship_placement_initialised with the first player object created', () => {
 
-            events.emit('player_types_selected');
+            test.each([
+                [1, {ksjne: 'ekjsbeskjt'}],
+                [2, {kjebg: 'gfubnrwesj'}]
+            ])('case %i', (caseNum, testObject) => {
+                const MockPlayerOne = testObject;
+                const MockPlayerTwo = {};
+                const MockCallback = jest.fn();
+                const MockPlayerConstructor = jest.fn()
+                    .mockImplementationOnce(() => MockPlayerOne)
+                    .mockImplementationOnce(() => MockPlayerTwo);
+                GameSetup({events: events, Player: MockPlayerConstructor});
+                events.listen('ship_placement_initialised', MockCallback);
 
-            expect(MockCallback.mock.calls[0][0].playerObj).toEqual(MockPlayerOne);
+                events.emit('player_types_selected');
+
+                expect(MockCallback.mock.calls[0][0].playerObj).toEqual(MockPlayerOne);
+            });
+
         });
 
         it('emits event:ship_placement_initialised with the first player object created', () => {
