@@ -29,7 +29,7 @@ describe('Game setup logic', () => {
             test.each([
                 [1, {ksjne: 'ekjsbeskjt'}],
                 [2, {kjebg: 'gfubnrwesj'}]
-            ])('case %i', (caseNum, testObject) => {
+            ])('case %i', (_case, testObject) => {
                 const MockPlayerOne = testObject;
                 const MockPlayerTwo = {};
                 const MockCallback = jest.fn();
@@ -54,6 +54,19 @@ describe('Game setup logic', () => {
             events.emit('player_types_selected');
 
             expect(MockCallback.mock.calls[0][0].shipLength).toEqual(2);
+        });
+
+    });
+
+    describe('on event:ship_placed', () => {
+
+        it('calls add_ship on the received player object\'s gameboard', () => {
+            const MockPlayerObject = {gameboard: {addShip: jest.fn()}}
+            GameSetup({events: events});
+            
+            events.emit('ship_placed', {playerObj: MockPlayerObject});
+
+            expect(MockPlayerObject.gameboard.addShip).toHaveBeenCalled();
         });
 
     });
