@@ -12,26 +12,25 @@ describe('Game logic handler', () => {
         GameLogic(events);
     });
 
-    it('emits event:turn_started on setup_completed', () => {
-        const MockCallback = jest.fn();
-        const MockPlayerOne = {};
-        const MockPlayerTwo = {};
-        events.listen('turn_started', MockCallback);
+    describe('on event:setup_completed', () => {
 
-        events.emit('setup_completed', {playerOne: MockPlayerOne, playerTwo: MockPlayerTwo});
+        let MockCallback;
 
-        expect(MockCallback).toHaveBeenCalled();
-    });
+        beforeEach(() => {
+            MockCallback = jest.fn();
+            events.listen('turn_started', MockCallback);
 
-    it('emits event:turn_started, specifying it the first/zeroth player\'s turn', () => {
-        const MockCallback = jest.fn();
-        const MockPlayerOne = {};
-        const MockPlayerTwo = {};
-        events.listen('turn_started', MockCallback);
+            events.emit('setup_completed');
+        });
 
-        events.emit('setup_completed', {playerOne: MockPlayerOne, playerTwo: MockPlayerTwo});
+        it('emits event:turn_started', () => {
+            expect(MockCallback).toHaveBeenCalled();
+        });
 
-        expect(MockCallback.mock.calls[0][0].activePlayer).toBe(0);
+        it('emits event:turn_started, specifying it\'s the first/zeroth player\'s turn', () => {
+            expect(MockCallback.mock.calls[0][0].activePlayer).toBe(0);
+        });
+
     });
 
 });
