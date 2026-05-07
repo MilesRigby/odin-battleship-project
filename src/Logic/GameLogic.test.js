@@ -27,7 +27,7 @@ describe('Game logic handler', () => {
             expect(MockCallback).toHaveBeenCalled();
         });
 
-        it('emits event:turn_started, specifying it\'s the first/zeroth player\'s turn', () => {
+        it('emits event:turn_started, specifying it\'s player 0\'s turn', () => {
             expect(MockCallback.mock.calls[0][0].activePlayer).toBe(0);
         });
 
@@ -52,6 +52,12 @@ describe('Game logic handler', () => {
             events.emit('turn_ended', {activePlayer: 0});
 
             expect(MockCallback.mock.calls[0][0].activePlayer).toBe(1);
+        });
+
+        it('emits event:turn_started for player 0 after player 1\'s turn ends', () => {
+            events.emit('turn_ended', {activePlayer: 1});
+
+            expect(MockCallback.mock.calls[0][0].activePlayer).toBe(0);
         });
 
     });
