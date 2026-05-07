@@ -39,6 +39,16 @@ describe('Game setup logic', () => {
             expect(MockCallback.mock.calls[0][0].playerObj).toEqual(MockPlayerOne);
         });
 
+        it('emits event:ship_placement_initialised with the first player object created', () => {
+            const MockCallback = jest.fn();
+            GameSetup({events: events});
+            events.listen('ship_placement_initialised', MockCallback);
+
+            events.emit('player_types_selected');
+
+            expect(MockCallback.mock.calls[0][0].shipLength).toEqual(2);
+        });
+
     });
 
 });

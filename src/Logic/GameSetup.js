@@ -7,7 +7,7 @@ const GameSetup = ({events = eventsSys, Player = PlayerConstructor} = {}) => {
         const playerOne = Player(playerOneType);
         Player(playerTwoType);
 
-        events.emit('ship_placement_initialised', {playerObj: playerOne});
+        events.emit('ship_placement_initialised', {playerObj: playerOne, shipLength: 2});
     });
 
 }
