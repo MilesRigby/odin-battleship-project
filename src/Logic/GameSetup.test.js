@@ -63,13 +63,13 @@ describe('Game setup logic', () => {
         let MockPlayerObject;
 
         beforeEach(() => {
-            MockPlayerObject = {gameboard: {addShip: jest.fn()}}
+            MockPlayerObject = {gameboard: {addShip: jest.fn(), getBoardState: jest.fn()}}
             GameSetup({events: events});
         });
 
         describe('calls addShip on the received player object\'s gameboard', () => {
 
-            test('confirm call', () => {            
+            test('confirm emit', () => {            
                 events.emit('ship_placed', {playerObj: MockPlayerObject});
 
                 expect(MockPlayerObject.gameboard.addShip).toHaveBeenCalled();
@@ -130,14 +130,36 @@ describe('Game setup logic', () => {
 
         });
 
-        it('emits event:board_state_changed if ship placement is valid', () => {
-            MockPlayerObject.gameboard.addShip.mockImplementation(() => true);
-            const MockCallback = jest.fn();
-            events.listen('board_state_changed', MockCallback);
+        describe('emits event:board_state_changed if ship placement is valid', () => {
 
-            events.emit('ship_placed', {playerObj: MockPlayerObject});
+            test('confirm emit', () => {
+                MockPlayerObject.gameboard.addShip.mockImplementation(() => true);
+                const MockCallback = jest.fn();
+                events.listen('board_state_changed', MockCallback);
 
-            expect(MockCallback).toHaveBeenCalled();
+                events.emit('ship_placed', {playerObj: MockPlayerObject});
+
+                expect(MockCallback).toHaveBeenCalled();
+            });
+
+            describe('sends state of player\'s gameboard', () => {
+
+                test.each([
+                    [1, [[0, 5, 3], [2, 7, 2], [7, 2, 5]]],
+                    [2, [[4, 8, 1], [3, 9, 1], [0, 8, 6]]]
+                ])('case %i', (_case, MockGameBoard) => {
+                    MockPlayerObject.gameboard.addShip.mockImplementation(() => true);
+                    MockPlayerObject.gameboard.getBoardState.mockImplementation(() => MockGameBoard);
+                    const MockCallback = jest.fn();
+                    events.listen('board_state_changed', MockCallback);
+
+                    events.emit('ship_placed', {playerObj: MockPlayerObject});
+
+                    expect(MockCallback).toHaveBeenCalledWith(expect.objectContaining({boardState: MockGameBoard}));
+                });
+
+            });
+
         });
 
     });
