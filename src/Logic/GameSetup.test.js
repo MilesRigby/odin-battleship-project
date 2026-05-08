@@ -97,21 +97,35 @@ describe('Game setup logic', () => {
 
         });
 
-        describe('emits event:ship_placement_initialised with same data as previously if placement is expected invalid', () => {
+        describe('ship placement is invalid', () => {
 
-            // The switch from i<ships to i<=ships is not a bug, it accounts for the fact that one event
-            // was already triggered by the setup's player_types_selected listener
-            test.each([ [0], [3], [5], [7] ])
-            ('after %i ships placed', (ships) => {
+            describe('emits event:ship_placement_initialised with same data as previously', () => {
+
+                // The switch from i<ships to i<=ships is not a bug, it accounts for the fact that one event
+                // was already triggered by the setup's player_types_selected listener
+                test.each([ [0], [3], [5], [7] ])
+                ('after %i ships placed', (ships) => {
+                    MockPlayerObject.gameboard.addShip.mockImplementation(() => false);
+                    for (i=0; i<ships; i++) { MockPlayerObject.gameboard.addShip.mockImplementationOnce(() => true) };
+                    const MockCallback = jest.fn();
+                    events.listen('ship_placement_initialised', MockCallback);
+
+                    events.emit('player_types_selected');
+                    for (i=0; i<=ships; i++) { events.emit('ship_placed', {playerObj: MockPlayerObject}) }; 
+
+                    expect(MockCallback.mock.calls.at(-2)).toEqual(MockCallback.mock.calls.at(-1));
+                });
+
+            });
+
+            it('doesn\'t emit event:board_state_changed', () => {
                 MockPlayerObject.gameboard.addShip.mockImplementation(() => false);
-                for (i=0; i<ships; i++) { MockPlayerObject.gameboard.addShip.mockImplementationOnce(() => true) };
                 const MockCallback = jest.fn();
-                events.listen('ship_placement_initialised', MockCallback);
+                events.listen('board_state_changed', MockCallback);
 
-                events.emit('player_types_selected');
-                for (i=0; i<=ships; i++) { events.emit('ship_placed', {playerObj: MockPlayerObject}) }; 
+                events.emit('ship_placed', {playerObj: MockPlayerObject});
 
-                expect(MockCallback.mock.calls.at(-2)).toEqual(MockCallback.mock.calls.at(-1));
+                expect(MockCallback).not.toHaveBeenCalled();
             });
 
         });
