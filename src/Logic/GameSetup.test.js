@@ -116,6 +116,16 @@ describe('Game setup logic', () => {
 
         });
 
+        it('emits event:board_state_changed if ship placement is valid', () => {
+            MockPlayerObject.gameboard.addShip.mockImplementation(() => true);
+            const MockCallback = jest.fn();
+            events.listen('board_state_changed', MockCallback);
+
+            events.emit('ship_placed', {playerObj: MockPlayerObject});
+
+            expect(MockCallback).toHaveBeenCalled();
+        });
+
     });
 
 });
