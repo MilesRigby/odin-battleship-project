@@ -111,7 +111,7 @@ describe('Game setup logic', () => {
                 events.emit('player_types_selected');
                 for (i=0; i<=ships; i++) { events.emit('ship_placed', {playerObj: MockPlayerObject}) }; 
 
-                expect(MockCallback.mock.calls.at(-2)[0]).toEqual(MockCallback.mock.calls.at(-1)[0]);
+                expect(MockCallback.mock.calls.at(-2)).toEqual(MockCallback.mock.calls.at(-1));
             });
 
         });
