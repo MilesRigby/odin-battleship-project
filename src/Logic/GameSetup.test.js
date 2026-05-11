@@ -160,6 +160,22 @@ describe('Game setup logic', () => {
 
             });
 
+            describe('sends number of player board (0 or 1), switching to board 1 for the sixth placed ship', () => {
+
+                test.each([ [2, 0], [5, 0], [6, 1], [8, 1] ])('placing ship %i on board %i', (shipsPlaced, boardUpdated) => {
+                    MockPlayerObject.gameboard.addShip.mockImplementation(() => true);
+                    const MockCallback = jest.fn();
+                    events.listen('board_state_changed', MockCallback);
+
+                    for (i=0; i<shipsPlaced; i++) {
+                        events.emit('ship_placed', {playerObj: MockPlayerObject});
+                    }
+
+                    expect(MockCallback).toHaveBeenLastCalledWith(expect.objectContaining({board: boardUpdated}))
+                });
+
+            });
+
         });
 
     });
