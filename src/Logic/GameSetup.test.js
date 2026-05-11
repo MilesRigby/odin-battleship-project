@@ -232,7 +232,7 @@ describe('Game setup logic', () => {
             describe('after 10th ship placed, emits event:setup_complete', () => {
 
                 beforeEach(() => {
-                    events.listen('setup_complete', MockCallback);
+                    events.listen('setup_completed', MockCallback);
                 });
 
                 test('confirm call after 10th ship', () => {
@@ -241,6 +241,23 @@ describe('Game setup logic', () => {
 
                     events.emit('ship_placed');
                     expect(MockCallback).toHaveBeenCalled();
+                });
+
+                describe('send player objects with event', () => {
+
+                    test.each([
+                        ['real', 'computer'],
+                        ['computer', 'computer'],
+                        ['real', 'real']
+                    ])('retrieve objects for player of types: %s, %s', (playerOneType, playerTwoType) => {
+                        events.emit('player_types_selected', {playerOneType: playerOneType, playerTwoType: playerTwoType});
+                        
+                        for (i=0; i<10; i++) events.emit('ship_placed');
+
+                        expect(MockCallback.mock.calls[0][0].playerOneObject.type).toBe(playerOneType);
+                        expect(MockCallback.mock.calls[0][0].playerTwoObject.type).toBe(playerTwoType);
+                    });
+
                 });
             
             });
