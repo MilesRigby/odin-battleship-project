@@ -63,16 +63,16 @@ describe('Game setup logic', () => {
         let MockPlayerObject;
 
         beforeEach(() => {
-            MockPlayerObject = {gameboard: {addShip: jest.fn(), getBoardState: jest.fn()}}
+            MockPlayerObject = {board: {addShip: jest.fn(), getBoardState: jest.fn()}}
             GameSetup({events: events});
         });
 
-        describe('calls addShip on the received player object\'s gameboard', () => {
+        describe('calls addShip on the received player object\'s board', () => {
 
             test('confirm emit', () => {            
                 events.emit('ship_placed', {playerObj: MockPlayerObject});
 
-                expect(MockPlayerObject.gameboard.addShip).toHaveBeenCalled();
+                expect(MockPlayerObject.board.addShip).toHaveBeenCalled();
             });
 
             describe('called with received position, length, and orientation', () => {
@@ -88,9 +88,9 @@ describe('Game setup logic', () => {
                         orientation: orientation
                     });
 
-                    expect(MockPlayerObject.gameboard.addShip.mock.calls[0][0]).toEqual(pos);
-                    expect(MockPlayerObject.gameboard.addShip.mock.calls[0][1]).toEqual(length);
-                    expect(MockPlayerObject.gameboard.addShip.mock.calls[0][2]).toEqual(orientation);
+                    expect(MockPlayerObject.board.addShip.mock.calls[0][0]).toEqual(pos);
+                    expect(MockPlayerObject.board.addShip.mock.calls[0][1]).toEqual(length);
+                    expect(MockPlayerObject.board.addShip.mock.calls[0][2]).toEqual(orientation);
                 });
 
             });
@@ -105,8 +105,8 @@ describe('Game setup logic', () => {
                 // was already triggered by the setup's player_types_selected listener
                 test.each([ [0], [3], [5], [7] ])
                 ('after %i ships placed', (ships) => {
-                    MockPlayerObject.gameboard.addShip.mockImplementation(() => false);
-                    for (i=0; i<ships; i++) { MockPlayerObject.gameboard.addShip.mockImplementationOnce(() => true) };
+                    MockPlayerObject.board.addShip.mockImplementation(() => false);
+                    for (i=0; i<ships; i++) { MockPlayerObject.board.addShip.mockImplementationOnce(() => true) };
                     const MockCallback = jest.fn();
                     events.listen('ship_placement_initialised', MockCallback);
 
@@ -119,7 +119,7 @@ describe('Game setup logic', () => {
             });
 
             it('doesn\'t emit event:board_state_changed', () => {
-                MockPlayerObject.gameboard.addShip.mockImplementation(() => false);
+                MockPlayerObject.board.addShip.mockImplementation(() => false);
                 const MockCallback = jest.fn();
                 events.listen('board_state_changed', MockCallback);
 
@@ -135,7 +135,7 @@ describe('Game setup logic', () => {
             let MockCallback;
 
             beforeEach(() => {
-                MockPlayerObject.gameboard.addShip.mockImplementation(() => true);
+                MockPlayerObject.board.addShip.mockImplementation(() => true);
                 MockCallback = jest.fn();
             });
 
@@ -151,13 +151,13 @@ describe('Game setup logic', () => {
                     expect(MockCallback).toHaveBeenCalled();
                 });
 
-                describe('sends state of player\'s gameboard', () => {
+                describe('sends state of player\'s board', () => {
 
                     test.each([
                         [1, [[0, 5, 3], [2, 7, 2], [7, 2, 5]]],
                         [2, [[4, 8, 1], [3, 9, 1], [0, 8, 6]]]
                     ])('case %i', (_case, MockGameBoard) => {
-                        MockPlayerObject.gameboard.getBoardState.mockImplementation(() => MockGameBoard);
+                        MockPlayerObject.board.getBoardState.mockImplementation(() => MockGameBoard);
 
                         events.emit('ship_placed', {playerObj: MockPlayerObject});
 
@@ -199,6 +199,32 @@ describe('Game setup logic', () => {
                     events.emit('ship_placed', {playerObj: MockPlayerObject});
 
                     expect(MockCallback.mock.calls.at(-1)).toBe(ninethCall);
+                });
+
+                describe('sends player 1 object after first 4 successful ships, then sends player 2', () => {
+
+                    test.each([
+                        ['real', 'computer', 1, 'real'],
+                        ['computer', 'computer', 3, 'computer'],
+                        ['real', 'computer', 5, 'computer'],
+                        ['computer', 'real', 8, 'real']
+                    ])('Types %s and %s, %i ship(s)', (playerOneType, playerTwoType, shipsToAdd, expectedPlayerType) => {
+                        events.emit('player_types_selected', {playerOneType: playerOneType, playerTwoType: playerTwoType});
+
+                        for (i=0; i<shipsToAdd; i++) events.emit('ship_placed');
+
+                        expect(MockCallback.mock.calls.at(-1)[0].playerObj.type).toBe(expectedPlayerType);
+                    }); // for commit: mention replacing "gameboard" with "board"
+
+                });
+
+                it('sends ship lengths 2,3,3,4,5 in order for each player (i.e. twice)', () => {
+                    shipOrder = [2, 3, 3, 4, 5, 2, 3, 3, 4, 5];
+
+                    events.emit('player_types_selected');
+                    for (i=0; i<10; i++) events.emit('ship_placed');
+
+                    expect(MockCallback.mock.calls.map((call) => call[0].shipLength)).toEqual(shipOrder);
                 });
 
             });
