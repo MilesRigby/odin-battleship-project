@@ -130,51 +130,60 @@ describe('Game setup logic', () => {
 
         });
 
-        describe('emits event:board_state_changed if ship placement is valid', () => {
+        describe('when ship placement is valid', () => {
 
-            test('confirm emit', () => {
-                MockPlayerObject.gameboard.addShip.mockImplementation(() => true);
-                const MockCallback = jest.fn();
-                events.listen('board_state_changed', MockCallback);
+            describe('emits event:board_state_changed', () => {
 
-                events.emit('ship_placed', {playerObj: MockPlayerObject});
+                let MockCallback;
 
-                expect(MockCallback).toHaveBeenCalled();
-            });
-
-            describe('sends state of player\'s gameboard', () => {
-
-                test.each([
-                    [1, [[0, 5, 3], [2, 7, 2], [7, 2, 5]]],
-                    [2, [[4, 8, 1], [3, 9, 1], [0, 8, 6]]]
-                ])('case %i', (_case, MockGameBoard) => {
+                beforeEach(() => {
                     MockPlayerObject.gameboard.addShip.mockImplementation(() => true);
-                    MockPlayerObject.gameboard.getBoardState.mockImplementation(() => MockGameBoard);
-                    const MockCallback = jest.fn();
+                    MockCallback = jest.fn();
                     events.listen('board_state_changed', MockCallback);
+                });
 
+                test('confirm emit', () => {
                     events.emit('ship_placed', {playerObj: MockPlayerObject});
 
-                    expect(MockCallback).toHaveBeenCalledWith(expect.objectContaining({boardState: MockGameBoard}));
+                    expect(MockCallback).toHaveBeenCalled();
                 });
 
-            });
+                describe('sends state of player\'s gameboard', () => {
 
-            describe('sends number of player board (0 or 1), switching to board 1 for the sixth placed ship', () => {
+                    test.each([
+                        [1, [[0, 5, 3], [2, 7, 2], [7, 2, 5]]],
+                        [2, [[4, 8, 1], [3, 9, 1], [0, 8, 6]]]
+                    ])('case %i', (_case, MockGameBoard) => {
+                        MockPlayerObject.gameboard.getBoardState.mockImplementation(() => MockGameBoard);
 
-                test.each([ [2, 0], [5, 0], [6, 1], [8, 1] ])('placing ship %i on board %i', (shipsPlaced, boardUpdated) => {
-                    MockPlayerObject.gameboard.addShip.mockImplementation(() => true);
-                    const MockCallback = jest.fn();
-                    events.listen('board_state_changed', MockCallback);
-
-                    for (i=0; i<shipsPlaced; i++) {
                         events.emit('ship_placed', {playerObj: MockPlayerObject});
-                    }
 
-                    expect(MockCallback).toHaveBeenLastCalledWith(expect.objectContaining({board: boardUpdated}))
+                        expect(MockCallback).toHaveBeenCalledWith(expect.objectContaining({boardState: MockGameBoard}));
+                    });
+
+                });
+
+                describe('sends number of player board (0 or 1), switching to board 1 for the sixth placed ship', () => {
+
+                    test.each([ [2, 0], [5, 0], [6, 1], [8, 1] ])('placing ship %i on board %i', (shipsPlaced, boardUpdated) => {
+                        for (i=0; i<shipsPlaced; i++) {
+                            events.emit('ship_placed', {playerObj: MockPlayerObject});
+                        }
+
+                        expect(MockCallback).toHaveBeenLastCalledWith(expect.objectContaining({board: boardUpdated}))
+                    });
+
                 });
 
             });
+
+            /*describe('emits event:ship_placement_initialised', () => {
+
+                test('confirm call', () => {
+
+                });
+
+            });*/
 
         });
 
