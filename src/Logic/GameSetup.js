@@ -20,9 +20,12 @@ const GameSetup = ({events = eventsSys, Player = PlayerConstructor} = {}) => {
         if (playerObj.board.addShip(pos, shipLength, orientation)) {
             events.emit('board_state_changed', {boardState: playerObj.board.getBoardState(), board: currentPlayer});
             if (++shipsPlaced === 5) currentPlayer++;
-            if (shipsPlaced === 10) return;
+            if (shipsPlaced === 10) {
+                events.emit('setup_complete');    
+                return
+            }
         }
-        
+
         events.emit('ship_placement_initialised', {playerObj: players[currentPlayer], shipLength: shipLengths[shipsPlaced % 5]});
     });
 

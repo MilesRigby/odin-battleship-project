@@ -214,7 +214,7 @@ describe('Game setup logic', () => {
                         for (i=0; i<shipsToAdd; i++) events.emit('ship_placed');
 
                         expect(MockCallback.mock.calls.at(-1)[0].playerObj.type).toBe(expectedPlayerType);
-                    }); // for commit: mention replacing "gameboard" with "board"
+                    });
 
                 });
 
@@ -227,6 +227,22 @@ describe('Game setup logic', () => {
                     expect(MockCallback.mock.calls.map((call) => call[0].shipLength)).toEqual(shipOrder);
                 });
 
+            });
+
+            describe('after 10th ship placed, emits event:setup_complete', () => {
+
+                beforeEach(() => {
+                    events.listen('setup_complete', MockCallback);
+                });
+
+                test('confirm call after 10th ship', () => {
+                    for (i=0; i<9; i++) events.emit('ship_placed');
+                    expect(MockCallback).not.toHaveBeenCalled();
+
+                    events.emit('ship_placed');
+                    expect(MockCallback).toHaveBeenCalled();
+                });
+            
             });
 
         });
