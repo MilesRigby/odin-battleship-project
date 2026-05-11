@@ -132,13 +132,16 @@ describe('Game setup logic', () => {
 
         describe('when ship placement is valid', () => {
 
+            let MockCallback;
+
+            beforeEach(() => {
+                MockPlayerObject.gameboard.addShip.mockImplementation(() => true);
+                MockCallback = jest.fn();
+            });
+
             describe('emits event:board_state_changed', () => {
 
-                let MockCallback;
-
                 beforeEach(() => {
-                    MockPlayerObject.gameboard.addShip.mockImplementation(() => true);
-                    MockCallback = jest.fn();
                     events.listen('board_state_changed', MockCallback);
                 });
 
@@ -177,13 +180,28 @@ describe('Game setup logic', () => {
 
             });
 
-            /*describe('emits event:ship_placement_initialised', () => {
+            describe('emits event:ship_placement_initialised until 10th ship placed', () => {
 
-                test('confirm call', () => {
-
+                beforeEach(() => {
+                    events.listen('ship_placement_initialised', MockCallback);
                 });
 
-            });*/
+                test('confirm call', () => {
+                    events.emit('ship_placed', {playerObj: MockPlayerObject});
+
+                    expect(MockCallback).toHaveBeenCalled();
+                });
+
+                test('unless 10th ship placed', () => {
+                    for (i=0; i<9; i++) events.emit('ship_placed', {playerObj: MockPlayerObject});
+                    const ninethCall = MockCallback.mock.calls[8];
+                    console.log(MockCallback.mock.calls);
+                    events.emit('ship_placed', {playerObj: MockPlayerObject});
+
+                    expect(MockCallback.mock.calls.at(-1)).toBe(ninethCall);
+                });
+
+            });
 
         });
 
