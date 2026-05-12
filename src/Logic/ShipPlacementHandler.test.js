@@ -20,10 +20,14 @@ describe('Single ship placement logic', () => {
                 beforeAll(() => jest.useFakeTimers());
                 afterAll(() => jest.useRealTimers());
 
-                test('delayed by 1 second', () => {
-                    const MockCallback = jest.fn();
-                    events.listen('ship_placed', MockCallback);
+                let MockCallback;
 
+                beforeEach(() => {
+                    MockCallback = jest.fn();
+                    events.listen('ship_placed', MockCallback);
+                });
+
+                test('delayed by 1 second', () => {
                     events.emit('ship_placement_initialised');
 
                     jest.advanceTimersByTime(999);
@@ -33,9 +37,6 @@ describe('Single ship placement logic', () => {
                 });
 
                 test('confirm event', () => {
-                    const MockCallback = jest.fn();
-                    events.listen('ship_placed', MockCallback);
-
                     events.emit('ship_placement_initialised');
                     jest.advanceTimersByTime(1000);
 
@@ -48,9 +49,6 @@ describe('Single ship placement logic', () => {
                         [1, {type: 'computer', randomData: 'skjrgbrjhgb'}],
                         [2, {type: 'computer', randomData: [3,4,5,'iurht']}]
                     ])('case %i', (_case, MockPlayerObject) => {
-                        const MockCallback = jest.fn();
-                        events.listen('ship_placed', MockCallback);
-
                         events.emit('ship_placement_initialised', {playerObj: MockPlayerObject});
                         jest.advanceTimersByTime(1000);
 
@@ -69,10 +67,7 @@ describe('Single ship placement logic', () => {
                             .mockImplementationOnce(() => rand1)
                             .mockImplementationOnce(() => rand2)
                             .mockImplementationOnce(() => rand3);
-                        
                         const MockPlayerObject = {type: 'computer'}
-                        const MockCallback = jest.fn();
-                        events.listen('ship_placed', MockCallback);
                         
                         events.emit('ship_placement_initialised', {playerObj: MockPlayerObject});
                         jest.advanceTimersByTime(1000);
@@ -90,8 +85,6 @@ describe('Single ship placement logic', () => {
                         [3, 2]
                     ])('case %i', (_case, shipLength) => {
                         const MockPlayerObject = {type: 'computer'}
-                        const MockCallback = jest.fn();
-                        events.listen('ship_placed', MockCallback);
 
                         events.emit('ship_placement_initialised', {playerObj: MockPlayerObject, length: shipLength});
                         jest.advanceTimersByTime(1000);
@@ -101,6 +94,29 @@ describe('Single ship placement logic', () => {
 
                 });
                 
+            });
+
+        });
+
+        describe('player type - real', () => {
+
+            describe('emits event: player_ship_placement_initialised', () => {
+
+                let MockCallback;
+
+                beforeEach(() => {
+                    MockCallback = jest.fn();
+                    events.listen('player_ship_placement_initialised', MockCallback);
+                });
+
+                test('confirm call', () => {
+                    const MockPlayerObject = {type: 'real'}
+
+                    events.emit('ship_placement_initialised', {playerObj: MockPlayerObject});
+
+                    expect(MockCallback).toHaveBeenCalled();
+                });
+
             });
 
         });

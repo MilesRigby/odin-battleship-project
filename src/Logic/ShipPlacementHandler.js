@@ -9,6 +9,8 @@ const ShipPlacementHandler = ({events = eventsSys} = {}) => {
         }
         const orientation = Math.floor(Math.random()*4);
 
+        events.emit('player_ship_placement_initialised');
+
         setTimeout(() => {
             events.emit('ship_placed', {playerObj: playerObj, pos: pos, orientation: orientation, length: length} );
         }, 1000);
