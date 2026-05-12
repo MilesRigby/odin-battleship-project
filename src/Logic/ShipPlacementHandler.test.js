@@ -27,6 +27,7 @@ describe('Single ship placement logic', () => {
                 });
 
                 describe('sends the player object recieved with the event', () => {
+
                     it.each([
                         [1, {type: 'computer', randomData: 'skjrgbrjhgb'}],
                         [2, {type: 'computer', randomData: [3,4,5,'iurht']}]
@@ -39,6 +40,28 @@ describe('Single ship placement logic', () => {
                         expect(MockCallback.mock.calls[0][0].playerObj).toEqual(MockPlayerObject);
                     });
                     
+                });
+
+                describe('sends random placement for the ship', () => {
+
+                    test.each([
+                        [1, 0.25, 2, 0.75, 7, 0.2, 0],
+                        [2, 0.95, 9, 0.45, 4, 0.45, 1]
+                    ])('case %i', (_case, rand1, x, rand2, y, rand3, o) => {
+                        jest.spyOn(global.Math, 'random')
+                            .mockImplementationOnce(() => rand1)
+                            .mockImplementationOnce(() => rand2)
+                            .mockImplementationOnce(() => rand3);
+                        
+                        const MockPlayerObject = {type: 'computer'}
+                        const MockCallback = jest.fn();
+                        events.listen('ship_placed', MockCallback);
+                        
+                        events.emit('ship_placement_initialised', {playerObj: MockPlayerObject});
+
+                        expect(MockCallback.mock.calls[0][0]).toEqual(expect.objectContaining({pos: {x: x, y: y}, orientation: o}))
+                    });
+
                 });
                 
             });
