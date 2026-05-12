@@ -63,6 +63,24 @@ describe('Single ship placement logic', () => {
                     });
 
                 });
+
+                describe('send ship length receieved from initialisation', () => {
+
+                    test.each([
+                        [1, 4],
+                        [2, 5],
+                        [3, 2]
+                    ])('case %i', (_case, shipLength) => {
+                        const MockPlayerObject = {type: 'computer'}
+                        const MockCallback = jest.fn();
+                        events.listen('ship_placed', MockCallback);
+
+                        events.emit('ship_placement_initialised', {playerObj: MockPlayerObject, length: shipLength});
+
+                        expect(MockCallback.mock.calls[0][0].length).toBe(shipLength);
+                    });
+
+                });
                 
             });
 
