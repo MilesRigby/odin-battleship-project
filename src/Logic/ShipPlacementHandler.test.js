@@ -17,11 +17,27 @@ describe('Single ship placement logic', () => {
 
             describe('emits event:ship_placed', () => {
 
+                beforeAll(() => jest.useFakeTimers());
+                afterAll(() => jest.useRealTimers());
+
+                test('delayed by 1 second', () => {
+                    const MockCallback = jest.fn();
+                    events.listen('ship_placed', MockCallback);
+
+                    events.emit('ship_placement_initialised');
+
+                    jest.advanceTimersByTime(999);
+                    expect(MockCallback).not.toHaveBeenCalled();
+                    jest.advanceTimersByTime(1);
+                    expect(MockCallback).toHaveBeenCalled();
+                });
+
                 test('confirm event', () => {
                     const MockCallback = jest.fn();
                     events.listen('ship_placed', MockCallback);
 
                     events.emit('ship_placement_initialised');
+                    jest.advanceTimersByTime(1000);
 
                     expect(MockCallback).toHaveBeenCalled();
                 });
@@ -36,6 +52,7 @@ describe('Single ship placement logic', () => {
                         events.listen('ship_placed', MockCallback);
 
                         events.emit('ship_placement_initialised', {playerObj: MockPlayerObject});
+                        jest.advanceTimersByTime(1000);
 
                         expect(MockCallback.mock.calls[0][0].playerObj).toEqual(MockPlayerObject);
                     });
@@ -58,6 +75,7 @@ describe('Single ship placement logic', () => {
                         events.listen('ship_placed', MockCallback);
                         
                         events.emit('ship_placement_initialised', {playerObj: MockPlayerObject});
+                        jest.advanceTimersByTime(1000);
 
                         expect(MockCallback.mock.calls[0][0]).toEqual(expect.objectContaining({pos: {x: x, y: y}, orientation: o}))
                     });
@@ -76,6 +94,7 @@ describe('Single ship placement logic', () => {
                         events.listen('ship_placed', MockCallback);
 
                         events.emit('ship_placement_initialised', {playerObj: MockPlayerObject, length: shipLength});
+                        jest.advanceTimersByTime(1000);
 
                         expect(MockCallback.mock.calls[0][0].length).toBe(shipLength);
                     });
