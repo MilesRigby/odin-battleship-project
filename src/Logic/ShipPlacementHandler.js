@@ -5,7 +5,7 @@ const ShipPlacementHandler = ({events = eventsSys} = {}) => {
     events.listen('ship_placement_initialised', ({playerObj = {type: 'real'}, length} = {}) => {
         if (playerObj.type === 'real') {
 
-            events.emit('player_ship_placement_initialised', {playerObj: playerObj});
+            events.emit('player_ship_placement_initialised', {playerObj: playerObj, length: length});
 
         } else {
 

@@ -47,18 +47,13 @@ describe('Single ship placement logic', () => {
                     expect(MockCallback).toHaveBeenCalled();
                 });
 
-                describe('sends the player object recieved with the event', () => {
+                it('sends the player object recieved with the event', () => {
+                    const MockPlayerObject = {type: 'computer'}
 
-                    it.each([
-                        [1, {type: 'computer', randomData: 'skjrgbrjhgb'}],
-                        [2, {type: 'computer', randomData: [3,4,5,'iurht']}]
-                    ])('case %i', (_case, MockPlayerObject) => {
-                        events.emit('ship_placement_initialised', {playerObj: MockPlayerObject});
-                        jest.advanceTimersByTime(1000);
+                    events.emit('ship_placement_initialised', {playerObj: MockPlayerObject});
+                    jest.advanceTimersByTime(1000);
 
-                        expect(MockCallback.mock.calls[0][0].playerObj).toEqual(MockPlayerObject);
-                    });
-                    
+                    expect(MockCallback.mock.calls[0][0].playerObj).toBe(MockPlayerObject);
                 });
 
                 describe('sends random placement for the ship', () => {
@@ -137,6 +132,20 @@ describe('Single ship placement logic', () => {
                     events.emit('ship_placement_initialised', {playerObj: MockPlayerObject});
 
                     expect(MockCallback.mock.calls[0][0].playerObj).toBe(MockPlayerObject);
+                });
+
+                describe('sends the length of the ship to be placed', () => {
+
+                    test.each([
+                        [3],
+                        [1],
+                        [5]
+                    ])('length: %i', (length) => {
+                        events.emit('ship_placement_initialised', {length: length});
+
+                        expect(MockCallback.mock.calls[0][0].length).toBe(length);
+                    });
+
                 });
 
             });
