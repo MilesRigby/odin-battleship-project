@@ -131,6 +131,14 @@ describe('Single ship placement logic', () => {
                     expect(MockCallback).toHaveBeenCalled();
                 });
 
+                it('sends the player object', () => {
+                    const MockPlayerObject = {type: 'real'}
+
+                    events.emit('ship_placement_initialised', {playerObj: MockPlayerObject});
+
+                    expect(MockCallback.mock.calls[0][0].playerObj).toBe(MockPlayerObject);
+                });
+
             });
 
             it('does not emit event:ship_placed', () => {
