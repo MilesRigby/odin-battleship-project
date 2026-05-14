@@ -28,7 +28,9 @@ describe('Single ship placement logic', () => {
                 });
 
                 test('delayed by 1 second', () => {
-                    events.emit('ship_placement_initialised');
+                    const MockPlayerObject = {type: 'computer'}
+
+                    events.emit('ship_placement_initialised', {playerObj: MockPlayerObject});
 
                     jest.advanceTimersByTime(999);
                     expect(MockCallback).not.toHaveBeenCalled();
@@ -37,7 +39,9 @@ describe('Single ship placement logic', () => {
                 });
 
                 test('confirm event', () => {
-                    events.emit('ship_placement_initialised');
+                    const MockPlayerObject = {type: 'computer'}
+
+                    events.emit('ship_placement_initialised', {playerObj: MockPlayerObject});
                     jest.advanceTimersByTime(1000);
 
                     expect(MockCallback).toHaveBeenCalled();
@@ -96,11 +100,21 @@ describe('Single ship placement logic', () => {
                 
             });
 
+            it('does not emit event:player_ship_placement_initialised', () => {
+                const MockCallback = jest.fn();
+                const MockPlayerObject = {type: 'computer'}
+                events.listen('player_ship_placement_initialised', MockCallback);
+
+                events.emit('ship_placement_initialised', {playerObj: MockPlayerObject});
+
+                expect(MockCallback).not.toHaveBeenCalled();
+            });
+
         });
 
         describe('player type - real', () => {
 
-            describe('emits event: player_ship_placement_initialised', () => {
+            describe('emits event:player_ship_placement_initialised', () => {
 
                 let MockCallback;
 
@@ -117,6 +131,21 @@ describe('Single ship placement logic', () => {
                     expect(MockCallback).toHaveBeenCalled();
                 });
 
+            });
+
+            it('does not emit event:ship_placed', () => {
+                jest.useFakeTimers();
+
+                const MockCallback = jest.fn();
+                const MockPlayerObject = {type: 'real'}
+                events.listen('ship_placed', MockCallback);
+
+                events.emit('ship_placement_initialised', {playerObj: MockPlayerObject});
+
+                jest.advanceTimersByTime(1000);
+                expect(MockCallback).not.toHaveBeenCalled();
+
+                jest.useRealTimers();
             });
 
         });
