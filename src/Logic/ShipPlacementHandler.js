@@ -22,6 +22,10 @@ const ShipPlacementHandler = ({events = eventsSys} = {}) => {
         }
     });
 
+    events.listen('ship_coords_selected', () => {
+        events.emit('ship_placed');
+    });
+
 }
 
 export default ShipPlacementHandler;

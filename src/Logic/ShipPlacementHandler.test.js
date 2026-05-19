@@ -169,4 +169,21 @@ describe('Single ship placement logic', () => {
 
     });
 
+    describe('on event:ship_coords_selected', () => {
+
+        let MockCallback;
+
+        beforeEach(() => {
+            MockCallback = jest.fn();
+            events.listen('ship_placed', MockCallback);
+        });
+
+        it('emits event:ship_placed', () => {
+            events.emit('ship_coords_selected');
+
+            expect(MockCallback).toHaveBeenCalled();
+        });
+
+    });
+
 });
