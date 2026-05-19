@@ -136,11 +136,7 @@ describe('Single ship placement logic', () => {
 
                 describe('sends the length of the ship to be placed', () => {
 
-                    test.each([
-                        [3],
-                        [1],
-                        [5]
-                    ])('length: %i', (length) => {
+                    test.each([[3], [1], [5]])('length: %i', (length) => {
                         events.emit('ship_placement_initialised', {length: length});
 
                         expect(MockCallback.mock.calls[0][0].length).toBe(length);
@@ -192,6 +188,34 @@ describe('Single ship placement logic', () => {
                 events.emit('ship_coords_selected', {playerObj: MockPlayerObject});
 
                 expect(MockCallback.mock.calls[0][0].playerObj).toBe(MockPlayerObject);
+            });
+
+            it('sends the ship position received', () => {
+                const MockPosObject = {};
+
+                events.emit('ship_coords_selected', {pos: MockPosObject});
+
+                expect(MockCallback.mock.calls[0][0].pos).toBe(MockPosObject);
+            });
+
+            describe('sends the length of the ship to be placed', () => {
+
+                test.each([[2], [7], [5]])('length: %i', (length) => {
+                    events.emit('ship_coords_selected', {length: length});
+
+                    expect(MockCallback.mock.calls[0][0].length).toBe(length);
+                });
+
+            });
+
+            describe('sends the orientation of the ship to be placed', () => {
+
+                test.each([[3], [1], [0]])('orientation: %i', (orientation) => {
+                    events.emit('ship_coords_selected', {orientation: orientation});
+
+                    expect(MockCallback.mock.calls[0][0].orientation).toBe(orientation);
+                });
+
             });
             
         });

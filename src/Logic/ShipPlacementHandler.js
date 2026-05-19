@@ -22,8 +22,8 @@ const ShipPlacementHandler = ({events = eventsSys} = {}) => {
         }
     });
 
-    events.listen('ship_coords_selected', ({playerObj = {}} = {}) => {
-        events.emit('ship_placed', {playerObj: playerObj});
+    events.listen('ship_coords_selected', ({playerObj = {}, pos = {}, length, orientation} = {}) => {
+        events.emit('ship_placed', {playerObj: playerObj, pos: pos, length: length, orientation: orientation});
     });
 
 }
