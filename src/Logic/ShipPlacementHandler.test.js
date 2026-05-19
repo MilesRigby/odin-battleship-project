@@ -178,10 +178,22 @@ describe('Single ship placement logic', () => {
             events.listen('ship_placed', MockCallback);
         });
 
-        it('emits event:ship_placed', () => {
-            events.emit('ship_coords_selected');
+        describe('emits event:ship_placed', () => {
 
-            expect(MockCallback).toHaveBeenCalled();
+            test('confirm call', () => {
+                events.emit('ship_coords_selected');
+
+                expect(MockCallback).toHaveBeenCalled();
+            });
+
+            it('sends the player object received', () => {
+                const MockPlayerObject = {};
+
+                events.emit('ship_coords_selected', {playerObj: MockPlayerObject});
+
+                expect(MockCallback.mock.calls[0][0].playerObj).toBe(MockPlayerObject);
+            });
+            
         });
 
     });

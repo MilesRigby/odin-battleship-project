@@ -22,8 +22,8 @@ const ShipPlacementHandler = ({events = eventsSys} = {}) => {
         }
     });
 
-    events.listen('ship_coords_selected', () => {
-        events.emit('ship_placed');
+    events.listen('ship_coords_selected', ({playerObj = {}} = {}) => {
+        events.emit('ship_placed', {playerObj: playerObj});
     });
 
 }
