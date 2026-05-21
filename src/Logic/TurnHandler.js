@@ -4,7 +4,7 @@ const TurnHandler = ({events = eventsSys} = {}) => {
 
     events.listen('turn_started', ({playerObj = {type: 'real'}} = {}) => {
 
-        playerObj.addShip();
+        playerObj.board.receiveAttack();
 
     });
 

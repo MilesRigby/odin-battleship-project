@@ -18,16 +18,20 @@ describe('Single turn logic', () => {
             let MockPlayerObject;
 
             beforeEach(() => {
-                MockPlayerObject = {addShip: jest.fn()}
+                MockPlayerObject = {board: {receiveAttack: jest.fn()}}
             });
 
-            describe('calls addShip on player object', () => {
+            describe('calls receiveAttack on player gameboard', () => {
 
                 test('confirm call', () => {
                     events.emit('turn_started', {playerObj: MockPlayerObject});
 
-                    expect(MockPlayerObject.addShip).toHaveBeenCalled();
+                    expect(MockPlayerObject.board.receiveAttack).toHaveBeenCalled();
                 });
+
+                //it('calls until addShip returns true (succesful ship placement)', () => {
+                //    MockPlayerObject.addShip.mockImplementationOnce(() => false)
+                //});
 
             });
 
