@@ -15,10 +15,12 @@ describe('Single turn logic', () => {
 
         describe('player type: computer', () => {
 
+            let MockCallback;
             let MockPlayerObject;
 
             beforeEach(() => {
-                MockPlayerObject = {board: {receiveAttack: jest.fn()}}
+                MockCallback = jest.fn();
+                MockPlayerObject = {board: {receiveAttack: MockCallback}}
             });
 
             describe('calls receiveAttack on player gameboard', () => {
@@ -26,12 +28,25 @@ describe('Single turn logic', () => {
                 test('confirm call', () => {
                     events.emit('turn_started', {playerObj: MockPlayerObject});
 
-                    expect(MockPlayerObject.board.receiveAttack).toHaveBeenCalled();
+                    expect(MockCallback).toHaveBeenCalled();
                 });
 
-                //it('calls until addShip returns true (succesful ship placement)', () => {
-                //    MockPlayerObject.addShip.mockImplementationOnce(() => false)
-                //});
+                describe('calls with random coordinates', () => {
+
+                    test.each([
+                        [1, 0.15, 1, 0.75, 7],
+                        [2, 0.35, 3, 0.55, 5]
+                    ])('case %i', (_case, rand1, x, rand2, y) => {
+                        jest.spyOn(global.Math, 'random')
+                            .mockImplementationOnce(() => rand1)
+                            .mockImplementationOnce(() => rand2);
+
+                        events.emit('turn_started', {playerObj: MockPlayerObject});
+
+                        expect(MockCallback.mock.calls[0][0]).toEqual({x: x, y: y});
+                    });
+
+                });
 
             });
 
