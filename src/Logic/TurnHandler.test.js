@@ -1,6 +1,7 @@
 import TurnHandler from './TurnHandler.js'
 
 import { eventsConstructor } from '../Events/events.js'
+import { isWebTarget } from 'webpack-dev-server';
 
 describe('Single turn logic', () => {
 
@@ -19,7 +20,7 @@ describe('Single turn logic', () => {
             let MockPlayerObject;
 
             beforeEach(() => {
-                MockCallback = jest.fn();
+                MockCallback = jest.fn().mockReturnValue(true);
                 MockPlayerObject = {board: {receiveAttack: MockCallback}}
             });
 
@@ -44,6 +45,21 @@ describe('Single turn logic', () => {
                         events.emit('turn_started', {playerObj: MockPlayerObject});
 
                         expect(MockCallback.mock.calls[0][0]).toEqual({x: x, y: y});
+                    });
+
+                });
+
+                describe('tries until receiveAttack returns true (successful attack)', () => {
+
+                    test.each([
+                        [1, 3],
+                        [2, 7]
+                    ])('case %i', (_case, finalCallNo) => {
+                        for (let i = 0; i < finalCallNo - 1; i++) MockCallback.mockImplementationOnce(() => false);
+
+                        events.emit('turn_started', {playerObj: MockPlayerObject});
+
+                        expect(MockCallback.mock.calls.length).toEqual(finalCallNo);
                     });
 
                 });
