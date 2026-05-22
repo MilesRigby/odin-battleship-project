@@ -17,18 +17,20 @@ describe('Single turn logic', () => {
         let MockCallbacks;
         let MockPlayerObjectOne;
         let MockPlayerObjectTwo;
+        let MockBoardObjects;
 
         describe('player type: computer', () => {
 
+            beforeEach(() => {
+                MockBoardObjects = [{}, {}];
+                MockCallbacks = [jest.fn().mockReturnValue(true), jest.fn().mockReturnValue(true)];
+                MockPlayerObjectOne = {type: 'computer', board: {receiveAttack: MockCallbacks[0], getBoardState: () => MockBoardObjects[0]}};
+                MockPlayerObjectTwo = {type: 'computer', board: {receiveAttack: MockCallbacks[1], getBoardState: () => MockBoardObjects[1]}};
+
+                events.emit('player_objects_created', {playerOne: MockPlayerObjectOne, playerTwo: MockPlayerObjectTwo});
+            });
+
             describe('calls receiveAttack on opposing player gameboard', () => {
-
-                beforeEach(() => {
-                    MockCallbacks = [jest.fn().mockReturnValue(true), jest.fn().mockReturnValue(true)];
-                    MockPlayerObjectOne = {type: 'computer', board: {receiveAttack: MockCallbacks[0]}};
-                    MockPlayerObjectTwo = {type: 'computer', board: {receiveAttack: MockCallbacks[1]}};
-
-                    events.emit('player_objects_created', {playerOne: MockPlayerObjectOne, playerTwo: MockPlayerObjectTwo});
-                });
 
                 test.each([[0, 1], [1, 0]])('confirm call, player %i', (playerTurn, targetNo) => {
                     events.emit('turn_started', {playerNo: playerTurn});
@@ -75,10 +77,6 @@ describe('Single turn logic', () => {
                 let MockCallback;
 
                 beforeEach(() => {
-                    MockObjects = [{}, {}];
-                    MockPlayerObjectOne = {type: 'computer', board: {receiveAttack: () => true, getBoardState: () => MockObjects[0]}};
-                    MockPlayerObjectTwo = {type: 'computer', board: {receiveAttack: () => true, getBoardState: () => MockObjects[1]}};
-
                     events.emit('player_objects_created', {playerOne: MockPlayerObjectOne, playerTwo: MockPlayerObjectTwo});
 
                     MockCallback = jest.fn();
@@ -89,6 +87,12 @@ describe('Single turn logic', () => {
                     events.emit('turn_started', {playerNo: 0});
 
                     expect(MockCallback).toHaveBeenCalled();
+                });
+
+                it('sends the game board of the opponent', () => {
+                    events.emit('turn_started', {playerNo: 0});
+
+                    expect(MockCallback.mock.calls[0][0].boardState).toBe(MockBoardObjects[1]);
                 });
 
             });
