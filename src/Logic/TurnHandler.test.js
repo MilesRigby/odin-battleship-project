@@ -95,6 +95,19 @@ describe('Single turn logic', () => {
                     expect(MockCallback.mock.calls[0][0].boardState).toBe(MockBoardObjects[1]);
                 });
 
+                describe('sends the number of the board to be updated (the opponent\'s)', () => {
+
+                    test.each([
+                        [0, 1],
+                        [1, 0]
+                    ])('playerNo = %i', (playerNo, opponentNo) => {
+                        events.emit('turn_started', {playerNo: playerNo});
+
+                        expect(MockCallback.mock.calls[0][0].board).toBe(opponentNo);
+                    });
+                    
+                });
+
             });
 
         });
