@@ -14,16 +14,16 @@ describe('Single turn logic', () => {
 
     describe('on event:turn_started', () => {
 
-        describe('player type: computer', () => {
+        let MockCallbacks;
+        let MockPlayerObjectOne;
+        let MockPlayerObjectTwo;
 
-            let MockCallbacks;
-            let MockPlayerObjectOne;
-            let MockPlayerObjectTwo;
+        describe('player type: computer', () => {
 
             beforeEach(() => {
                 MockCallbacks = [jest.fn().mockReturnValue(true), jest.fn().mockReturnValue(true)];
-                MockPlayerObjectOne = {board: {receiveAttack: MockCallbacks[0]}};
-                MockPlayerObjectTwo = {board: {receiveAttack: MockCallbacks[1]}};
+                MockPlayerObjectOne = {type: 'computer', board: {receiveAttack: MockCallbacks[0]}};
+                MockPlayerObjectTwo = {type: 'computer', board: {receiveAttack: MockCallbacks[1]}};
 
                 events.emit('player_objects_created', {playerOne: MockPlayerObjectOne, playerTwo: MockPlayerObjectTwo});
             });
@@ -72,8 +72,30 @@ describe('Single turn logic', () => {
 
         });
 
+        describe('player type: real', () => {
+
+            beforeEach(() => {
+                MockCallbacks = [jest.fn().mockReturnValue(true), jest.fn().mockReturnValue(true)];
+                MockPlayerObjectOne = {type: 'real', board: {receiveAttack: MockCallbacks[0]}};
+                MockPlayerObjectTwo = {type: 'real', board: {receiveAttack: MockCallbacks[1]}};
+
+                events.emit('player_objects_created', {playerOne: MockPlayerObjectOne, playerTwo: MockPlayerObjectTwo});
+            });
+
+            it('does not call receiveAttack', () => {
+                events.emit('turn_started', {playerNo: 0});
+
+                expect(MockCallbacks[1]).not.toHaveBeenCalled();
+            });
+
+        });
+
     });
 
+    //describe('on event:space_clicked', () => {
 
+
+
+    //});
 
 });

@@ -13,7 +13,10 @@ const TurnHandler = ({events = eventsSys} = {}) => {
 
     events.listen('turn_started', ({playerNo = 0} = {}) => {
 
-        const target = players[1-playerNo]
+        const player = players[playerNo];
+        const target = players[1-playerNo];
+
+        if (player.type === 'real') return;
 
         while (true) {
             if (target.board.receiveAttack({x: Math.floor(Math.random()*10), y: Math.floor(Math.random()*10)})) break;
