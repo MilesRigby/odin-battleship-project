@@ -22,6 +22,8 @@ const TurnHandler = ({events = eventsSys} = {}) => {
             if (target.board.receiveAttack({x: Math.floor(Math.random()*10), y: Math.floor(Math.random()*10)})) break;
         }
 
+        events.emit('board_state_changed');
+
     });
 
 }
