@@ -24,6 +24,8 @@ const TurnHandler = ({events = eventsSys} = {}) => {
 
         events.emit('board_state_changed', {boardState: target.board.getBoardState(), board: 1-playerNo});
 
+        events.emit('turn_ended', {activePlayer: playerNo});
+
     });
 
 }

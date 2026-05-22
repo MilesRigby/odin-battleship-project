@@ -77,8 +77,6 @@ describe('Single turn logic', () => {
                 let MockCallback;
 
                 beforeEach(() => {
-                    events.emit('player_objects_created', {playerOne: MockPlayerObjectOne, playerTwo: MockPlayerObjectTwo});
-
                     MockCallback = jest.fn();
                     events.listen('board_state_changed', MockCallback);
                 });
@@ -110,6 +108,18 @@ describe('Single turn logic', () => {
 
             });
 
+            describe('emits event:turn_ended with player number', () => {
+
+                test.each([ [0], [0] ])('', (playerNo) => {
+                    const MockCallback = jest.fn();
+                    events.listen('turn_ended', MockCallback);
+                    events.emit('turn_started', {playerNo: playerNo});
+
+                    expect(MockCallback.mock.calls[0][0].activePlayer).toBe(playerNo);
+                });
+
+            });
+
         });
 
         describe('player type: real', () => {
@@ -126,6 +136,24 @@ describe('Single turn logic', () => {
                 events.emit('turn_started', {playerNo: 0});
 
                 expect(MockCallbacks[1]).not.toHaveBeenCalled();
+            });
+
+            it('does not emit event:board_state_changed', () => {
+                const MockCallback = jest.fn();
+                events.listen('board_state_changed', MockCallback);
+
+                events.emit('turn_started', {playerNo: 0});
+
+                expect(MockCallback).not.toHaveBeenCalled();
+            });
+
+            it('does not emit event:turn_ended', () => {
+                const MockCallback = jest.fn();
+                events.listen('turn_ended', MockCallback);
+
+                events.emit('turn_started', {playerNo: 0});
+
+                expect(MockCallback).not.toHaveBeenCalled();
             });
 
         });
