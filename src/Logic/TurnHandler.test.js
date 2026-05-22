@@ -16,20 +16,24 @@ describe('Single turn logic', () => {
 
         describe('player type: computer', () => {
 
-            let MockCallback;
-            let MockPlayerObject;
+            let MockCallbacks;
+            let MockPlayerObjectOne;
+            let MockPlayerObjectTwo;
 
             beforeEach(() => {
-                MockCallback = jest.fn().mockReturnValue(true);
-                MockPlayerObject = {board: {receiveAttack: MockCallback}}
+                MockCallbacks = [jest.fn().mockReturnValue(true), jest.fn().mockReturnValue(true)];
+                MockPlayerObjectOne = {board: {receiveAttack: MockCallbacks[0]}};
+                MockPlayerObjectTwo = {board: {receiveAttack: MockCallbacks[1]}};
+
+                events.emit('player_objects_created', {playerOne: MockPlayerObjectOne, playerTwo: MockPlayerObjectTwo});
             });
 
-            describe('calls receiveAttack on player gameboard', () => {
+            describe('calls receiveAttack on opposing player gameboard', () => {
 
-                test('confirm call', () => {
-                    events.emit('turn_started', {playerObj: MockPlayerObject});
+                test.each([[0, 1], [1, 0]])('confirm call, player %i', (playerTurn, targetNo) => {
+                    events.emit('turn_started', {playerNo: playerTurn});
 
-                    expect(MockCallback).toHaveBeenCalled();
+                    expect(MockCallbacks[targetNo]).toHaveBeenCalled();
                 });
 
                 describe('calls with random coordinates', () => {
@@ -42,9 +46,9 @@ describe('Single turn logic', () => {
                             .mockImplementationOnce(() => rand1)
                             .mockImplementationOnce(() => rand2);
 
-                        events.emit('turn_started', {playerObj: MockPlayerObject});
+                        events.emit('turn_started', {playerNo: 0});
 
-                        expect(MockCallback.mock.calls[0][0]).toEqual({x: x, y: y});
+                        expect(MockCallbacks[1].mock.calls[0][0]).toEqual({x: x, y: y});
                     });
 
                 });
@@ -55,11 +59,11 @@ describe('Single turn logic', () => {
                         [1, 3],
                         [2, 7]
                     ])('case %i', (_case, finalCallNo) => {
-                        for (let i = 0; i < finalCallNo - 1; i++) MockCallback.mockImplementationOnce(() => false);
+                        for (let i = 0; i < finalCallNo - 1; i++) MockCallbacks[1].mockImplementationOnce(() => false);
 
-                        events.emit('turn_started', {playerObj: MockPlayerObject});
+                        events.emit('turn_started', {playerNo: 0});
 
-                        expect(MockCallback.mock.calls.length).toEqual(finalCallNo);
+                        expect(MockCallbacks[1].mock.calls.length).toEqual(finalCallNo);
                     });
 
                 });
