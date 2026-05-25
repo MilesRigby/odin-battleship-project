@@ -163,6 +163,7 @@ describe('Single turn logic', () => {
     describe('on event:space_clicked', () => {
 
         let MockCallback;
+        let MockBoardObjects;
 
         beforeEach(() => {
             MockCallback = jest.fn();
@@ -171,13 +172,13 @@ describe('Single turn logic', () => {
                 jest.fn(pos => JSON.stringify(pos) === JSON.stringify({x: 7, y: 3})), 
                 jest.fn(pos => JSON.stringify(pos) === JSON.stringify({x: 7, y: 3}))
             ];
-            MockGameBoards = [
-                {},
-                {}
+            MockBoardObjects = [
+                {board1: 1},
+                {board2: 2}
             ]
             MockPlayerObjects = [
-                {type: 'real', board: {receiveAttack: MockReceiveAttacks[0], getBoardState: () => MockGameBoards[0]}},
-                {type: 'real', board: {receiveAttack: MockReceiveAttacks[1], getBoardState: () => MockGameBoards[1]}}
+                {type: 'real', board: {receiveAttack: MockReceiveAttacks[0], getBoardState: () => MockBoardObjects[0]}},
+                {type: 'real', board: {receiveAttack: MockReceiveAttacks[1], getBoardState: () => MockBoardObjects[1]}}
             ]
             events.emit('player_objects_created', { playerOne: MockPlayerObjects[0], playerTwo: MockPlayerObjects[1] });
         });
@@ -218,6 +219,36 @@ describe('Single turn logic', () => {
             events.emit('space_clicked', {pos: {x: 7, y: 5}, boardNo: 1});
 
             expect(MockCallback).not.toHaveBeenCalled();
+        });
+
+        describe('player turn is active and position is valid', () => {
+
+            let pos;
+
+            beforeEach(() => {
+                pos = {x: 7, y: 3}
+            });
+
+            describe('emits event:board_state_changed', () => {
+
+                describe('sends opposing player game board', () => {
+
+                    test.each([
+                        [0, 1],
+                        [1, 0]
+                    ])('player %i\'s turn', (player, target) => {
+                        events.emit('turn_started', {playerNo: player});
+                        events.listen('board_state_changed', MockCallback);
+
+                        events.emit('space_clicked', {pos: pos, boardNo: target});
+
+                        expect(MockCallback.mock.calls[0][0].boardState).toBe(MockBoardObjects[target]);
+                    });
+                
+                });
+
+            });
+
         });
 
     });

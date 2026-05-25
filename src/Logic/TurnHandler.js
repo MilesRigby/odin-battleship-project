@@ -28,6 +28,14 @@ const TurnHandler = ({events = eventsSys} = {}) => {
 
     });
 
+    events.listen('space_clicked', ({pos = {x: 0, y: 0}, boardNo = 0} = {}) => {
+
+        if (pos.y === 5) return;
+
+        events.emit('board_state_changed', {boardState: players[boardNo].board.getBoardState()});
+
+    });
+
 }
 
 export default TurnHandler;
