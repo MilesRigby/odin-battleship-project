@@ -160,10 +160,66 @@ describe('Single turn logic', () => {
 
     });
 
-    //describe('on event:space_clicked', () => {
+    describe('on event:space_clicked', () => {
 
+        let MockCallback;
 
+        beforeEach(() => {
+            MockCallback = jest.fn();
 
-    //});
+            MockReceiveAttacks = [
+                jest.fn(pos => JSON.stringify(pos) === JSON.stringify({x: 7, y: 3})), 
+                jest.fn(pos => JSON.stringify(pos) === JSON.stringify({x: 7, y: 3}))
+            ];
+            MockGameBoards = [
+                {},
+                {}
+            ]
+            MockPlayerObjects = [
+                {type: 'real', board: {receiveAttack: MockReceiveAttacks[0], getBoardState: () => MockGameBoards[0]}},
+                {type: 'real', board: {receiveAttack: MockReceiveAttacks[1], getBoardState: () => MockGameBoards[1]}}
+            ]
+            events.emit('player_objects_created', { playerOne: MockPlayerObjects[0], playerTwo: MockPlayerObjects[1] });
+        });
+
+        describe('does not call receiveAttack when there is no active turn', () => {
+
+            test('before first turn', () => {
+                events.emit('space_clicked', {pos: {x: 7, y: 3}, boardNo: 1});
+
+                expect(MockReceiveAttacks[1]).not.toHaveBeenCalled();
+            });
+
+            test('between end of a turn and start of next', () => {
+                MockPlayerObjects[0].type = 'computer';
+                MockReceiveAttacks[1].mockImplementationOnce(() => true);
+                events.emit('turn_started');
+
+                events.emit('space_clicked', {pos: {x: 7, y: 3}, boardNo: 1});
+
+                expect(MockReceiveAttacks[0]).not.toHaveBeenCalled();
+            });
+
+        });
+
+        it('does not call receiveAttack when the board and active player turn number are equal', () => {
+            events.emit('turn_started');
+
+            events.emit('space_clicked', {pos: {x: 7, y: 3}, boardNo: 0});
+
+            expect(MockReceiveAttacks[0]).not.toHaveBeenCalled();
+        });
+
+        it('does not emit events board_state_changed and turn_ended when an invalid position is targeted', () => {
+            events.emit('turn_started');
+            events.listen('board_state_changed', MockCallback);
+            events.listen('turn_ended', MockCallback);
+
+            events.emit('space_clicked', {pos: {x: 7, y: 5}, boardNo: 1});
+
+            expect(MockCallback).not.toHaveBeenCalled();
+        });
+
+    });
 
 });
