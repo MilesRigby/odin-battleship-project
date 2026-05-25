@@ -110,7 +110,7 @@ describe('Single turn logic', () => {
 
             describe('emits event:turn_ended with player number', () => {
 
-                test.each([ [0], [0] ])('', (playerNo) => {
+                test.each([ [0], [1] ])('player %i', (playerNo) => {
                     const MockCallback = jest.fn();
                     events.listen('turn_ended', MockCallback);
                     events.emit('turn_started', {playerNo: playerNo});

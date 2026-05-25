@@ -3,6 +3,8 @@ import eventsSys from '../Events/events.js'
 const TurnHandler = ({events = eventsSys} = {}) => {
 
     let players;
+    let currentTurn = 0;
+    let turnActive = false;
 
     events.listen('player_objects_created', ({playerOne, playerTwo} = {}) => {
         players = [];
@@ -16,7 +18,11 @@ const TurnHandler = ({events = eventsSys} = {}) => {
         const player = players[playerNo];
         const target = players[1-playerNo];
 
-        if (player.type === 'real') return;
+        if (player.type === 'real') {
+            currentTurn = playerNo;
+            turnActive = true;
+            return;
+        }
 
         while (true) {
             if (target.board.receiveAttack({x: Math.floor(Math.random()*10), y: Math.floor(Math.random()*10)})) break;
@@ -30,9 +36,14 @@ const TurnHandler = ({events = eventsSys} = {}) => {
 
     events.listen('space_clicked', ({pos = {x: 0, y: 0}, boardNo = 0} = {}) => {
 
-        if (pos.y === 5) return;
+        if (!turnActive) return;
+        if (currentTurn === boardNo) return;
 
-        events.emit('board_state_changed', {boardState: players[boardNo].board.getBoardState()});
+        if (players[boardNo].board.receiveAttack(pos)) {
+            turnActive = false;
+            events.emit('board_state_changed', {boardState: players[boardNo].board.getBoardState(), board: boardNo});
+            events.emit('turn_ended');
+        }
 
     });
 
