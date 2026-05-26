@@ -28,9 +28,10 @@ const TurnHandler = ({events = eventsSys} = {}) => {
             if (target.board.receiveAttack({x: Math.floor(Math.random()*10), y: Math.floor(Math.random()*10)})) break;
         }
 
-        events.emit('board_state_changed', {boardState: target.board.getBoardState(), board: 1-playerNo});
-
-        events.emit('turn_ended', {activePlayer: playerNo});
+        setTimeout(() => {
+            events.emit('board_state_changed', {boardState: target.board.getBoardState(), board: 1-playerNo});
+            events.emit('turn_ended', {activePlayer: playerNo});
+        }, 1000);
 
     });
 

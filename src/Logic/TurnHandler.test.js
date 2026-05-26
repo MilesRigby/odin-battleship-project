@@ -7,6 +7,8 @@ describe('Single turn logic', () => {
 
     let events;
 
+    jest.spyOn(global, 'setTimeout').mockImplementation((cb) => cb());
+
     beforeEach(() => {
         events = eventsConstructor();
         TurnHandler({events: events});
