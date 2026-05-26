@@ -30,23 +30,34 @@ const TurnHandler = ({events = eventsSys} = {}) => {
 
         setTimeout(() => {
             events.emit('board_state_changed', {boardState: target.board.getBoardState(), board: 1-playerNo});
-            events.emit('turn_ended', {activePlayer: playerNo});
+            endTurn(target, playerNo);
         }, 1000);
 
     });
 
     events.listen('space_clicked', ({pos = {x: 0, y: 0}, boardNo = 0} = {}) => {
 
+        const player = players[currentTurn];
+        const target = players[1-currentTurn];
+
         if (!turnActive) return;
         if (currentTurn === boardNo) return;
 
-        if (players[boardNo].board.receiveAttack(pos)) {
+        if (target.board.receiveAttack(pos)) {
             turnActive = false;
-            events.emit('board_state_changed', {boardState: players[boardNo].board.getBoardState(), board: boardNo});
-            events.emit('turn_ended');
+            events.emit('board_state_changed', {boardState: target.board.getBoardState(), board: boardNo});
+            endTurn(target, currentTurn);
         }
 
     });
+
+    const endTurn = (target, playerNo) => {
+        if (target.board.allSunk()) {
+            events.emit('player_won', {player: playerNo});
+        } else {
+            events.emit('turn_ended', {activePlayer: playerNo});
+        }
+    }
 
 }
 

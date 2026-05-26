@@ -26,8 +26,8 @@ describe('Single turn logic', () => {
             beforeEach(() => {
                 MockBoardObjects = [{}, {}];
                 MockCallbacks = [jest.fn().mockReturnValue(true), jest.fn().mockReturnValue(true)];
-                MockPlayerObjectOne = {type: 'computer', board: {receiveAttack: MockCallbacks[0], getBoardState: () => MockBoardObjects[0]}};
-                MockPlayerObjectTwo = {type: 'computer', board: {receiveAttack: MockCallbacks[1], getBoardState: () => MockBoardObjects[1]}};
+                MockPlayerObjectOne = {type: 'computer', board: {receiveAttack: MockCallbacks[0], getBoardState: () => MockBoardObjects[0], allSunk: () => false}};
+                MockPlayerObjectTwo = {type: 'computer', board: {receiveAttack: MockCallbacks[1], getBoardState: () => MockBoardObjects[1], allSunk: () => false}};
 
                 events.emit('player_objects_created', {playerOne: MockPlayerObjectOne, playerTwo: MockPlayerObjectTwo});
             });
@@ -179,8 +179,8 @@ describe('Single turn logic', () => {
                 {board2: 2}
             ]
             MockPlayerObjects = [
-                {type: 'real', board: {receiveAttack: MockReceiveAttacks[0], getBoardState: () => MockBoardObjects[0]}},
-                {type: 'real', board: {receiveAttack: MockReceiveAttacks[1], getBoardState: () => MockBoardObjects[1]}}
+                {type: 'real', board: {receiveAttack: MockReceiveAttacks[0], getBoardState: () => MockBoardObjects[0], allSunk: () => false}},
+                {type: 'real', board: {receiveAttack: MockReceiveAttacks[1], getBoardState: () => MockBoardObjects[1], allSunk: () => false}}
             ]
             events.emit('player_objects_created', { playerOne: MockPlayerObjects[0], playerTwo: MockPlayerObjects[1] });
         });
