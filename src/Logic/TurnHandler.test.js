@@ -29,7 +29,7 @@ describe('Single turn logic', () => {
                 MockPlayerObjectOne = {type: 'computer', board: {receiveAttack: MockCallbacks[0], getBoardState: () => MockBoardObjects[0], allSunk: () => false}};
                 MockPlayerObjectTwo = {type: 'computer', board: {receiveAttack: MockCallbacks[1], getBoardState: () => MockBoardObjects[1], allSunk: () => false}};
 
-                events.emit('player_objects_created', {playerOne: MockPlayerObjectOne, playerTwo: MockPlayerObjectTwo});
+                events.emit('player_objects_constructed', {playerOne: MockPlayerObjectOne, playerTwo: MockPlayerObjectTwo});
             });
 
             describe('calls receiveAttack on opposing player gameboard', () => {
@@ -131,7 +131,7 @@ describe('Single turn logic', () => {
                 MockPlayerObjectOne = {type: 'real', board: {receiveAttack: MockCallbacks[0]}};
                 MockPlayerObjectTwo = {type: 'real', board: {receiveAttack: MockCallbacks[1]}};
 
-                events.emit('player_objects_created', {playerOne: MockPlayerObjectOne, playerTwo: MockPlayerObjectTwo});
+                events.emit('player_objects_constructed', {playerOne: MockPlayerObjectOne, playerTwo: MockPlayerObjectTwo});
             });
 
             it('does not call receiveAttack', () => {
@@ -182,7 +182,7 @@ describe('Single turn logic', () => {
                 {type: 'real', board: {receiveAttack: MockReceiveAttacks[0], getBoardState: () => MockBoardObjects[0], allSunk: () => false}},
                 {type: 'real', board: {receiveAttack: MockReceiveAttacks[1], getBoardState: () => MockBoardObjects[1], allSunk: () => false}}
             ]
-            events.emit('player_objects_created', { playerOne: MockPlayerObjects[0], playerTwo: MockPlayerObjects[1] });
+            events.emit('player_objects_constructed', { playerOne: MockPlayerObjects[0], playerTwo: MockPlayerObjects[1] });
         });
 
         describe('does not call receiveAttack when there is no active turn', () => {

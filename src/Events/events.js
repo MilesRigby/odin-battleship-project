@@ -13,10 +13,10 @@ const eventsConstructor = () => {
     // Calls every callback registered to the event [name];
     // passes a data object as the lone parameter to every callback
     const emit = (name, data) => { 
-        fnArr = events[name];
-
+        const fnArr = events[name];
+        
         if (fnArr) {
-            for (fn of fnArr) {
+            for (let fn of fnArr) {
                 fn(data);
             }
         }

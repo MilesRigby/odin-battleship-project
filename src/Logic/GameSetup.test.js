@@ -218,7 +218,6 @@ describe('Game setup logic', () => {
                 test('unless 10th ship placed', () => {
                     for (i=0; i<9; i++) events.emit('ship_placed', {playerObj: MockPlayerObject});
                     const ninethCall = MockCallback.mock.calls[8];
-                    console.log(MockCallback.mock.calls);
                     events.emit('ship_placed', {playerObj: MockPlayerObject});
 
                     expect(MockCallback.mock.calls.at(-1)).toBe(ninethCall);

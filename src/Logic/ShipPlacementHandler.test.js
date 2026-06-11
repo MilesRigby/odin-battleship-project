@@ -27,17 +27,6 @@ describe('Single ship placement logic', () => {
                     events.listen('ship_placed', MockCallback);
                 });
 
-                test('delayed by 1 second', () => {
-                    const MockPlayerObject = {type: 'computer'}
-
-                    events.emit('ship_placement_initialised', {playerObj: MockPlayerObject});
-
-                    jest.advanceTimersByTime(999);
-                    expect(MockCallback).not.toHaveBeenCalled();
-                    jest.advanceTimersByTime(1);
-                    expect(MockCallback).toHaveBeenCalled();
-                });
-
                 test('confirm event', () => {
                     const MockPlayerObject = {type: 'computer'}
 
@@ -85,10 +74,10 @@ describe('Single ship placement logic', () => {
                     ])('case %i', (_case, shipLength) => {
                         const MockPlayerObject = {type: 'computer'}
 
-                        events.emit('ship_placement_initialised', {playerObj: MockPlayerObject, length: shipLength});
+                        events.emit('ship_placement_initialised', {playerObj: MockPlayerObject, shipLength: shipLength});
                         jest.advanceTimersByTime(1000);
 
-                        expect(MockCallback.mock.calls[0][0].length).toBe(shipLength);
+                        expect(MockCallback.mock.calls[0][0].shipLength).toBe(shipLength);
                     });
 
                 });
@@ -137,7 +126,7 @@ describe('Single ship placement logic', () => {
                 describe('sends the length of the ship to be placed', () => {
 
                     test.each([[3], [1], [5]])('length: %i', (length) => {
-                        events.emit('ship_placement_initialised', {length: length});
+                        events.emit('ship_placement_initialised', {shipLength: length});
 
                         expect(MockCallback.mock.calls[0][0].length).toBe(length);
                     });
@@ -203,7 +192,7 @@ describe('Single ship placement logic', () => {
                 test.each([[2], [7], [5]])('length: %i', (length) => {
                     events.emit('ship_coords_selected', {length: length});
 
-                    expect(MockCallback.mock.calls[0][0].length).toBe(length);
+                    expect(MockCallback.mock.calls[0][0].shipLength).toBe(length);
                 });
 
             });

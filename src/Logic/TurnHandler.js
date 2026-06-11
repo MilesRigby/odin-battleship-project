@@ -6,9 +6,9 @@ const TurnHandler = ({events = eventsSys} = {}) => {
     let currentTurn = 0;
     let turnActive = false;
 
-    events.listen('player_objects_created', ({playerOne, playerTwo} = {}) => {
+    events.listen('player_objects_constructed', ({playerOne, playerTwo} = {}) => {
         players = [];
-
+        
         players.push(playerOne);
         players.push(playerTwo);
     });
@@ -17,6 +17,8 @@ const TurnHandler = ({events = eventsSys} = {}) => {
 
         const player = players[playerNo];
         const target = players[1-playerNo];
+
+        console.log(playerNo)
 
         if (player.type === 'real') {
             currentTurn = playerNo;

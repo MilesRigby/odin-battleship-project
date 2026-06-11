@@ -1,0 +1,45 @@
+/* styles scoped to elements of the sea-grid class */
+.sea-grid {
+
+        margin-top: 2vh;
+
+        width: 30vw;
+        height: 30vw;
+
+        background-color: black;
+
+        border-style: solid;
+        border-width: 1px;
+        border-color: rgb(17, 178, 17);
+
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+
+        .sea-column {
+                
+                display: flex;
+                flex-direction: column-reverse;
+
+                .sea-cell {
+                        margin: none;
+                        height: 100%;
+                        width: 100%;
+                        
+                        border-style: solid;
+                        border-width: 1px;
+                        border-color: green;
+
+                        /* For ship placement */
+                        &[data-ghost="true"] { background-color: rgb(48, 48, 48); }
+
+                        /* Hit and missed shots always visible */
+                        &[data-state="miss"] { background-color: rgb(105, 147, 181); }
+                        &[data-state="hit"] { background-color: rgb(128, 0, 0); }
+                }
+
+        }
+
+        /* Only active boards show placed ships (players can see their own) */
+        &[data-active="true"] .sea-cell[data-state="ship"] { background-color: rgb(0, 96, 0); }
+
+}

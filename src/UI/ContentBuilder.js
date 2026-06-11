@@ -1,4 +1,4 @@
-// Constructs DOM objects from javascript objects of the above format
+// Constructs DOM objects from javascript objects in an HTML-like format
 const ConstructHTMLFromObject = (object) => {
 
     // Retrieve element name ("p", "div", "input", etc)

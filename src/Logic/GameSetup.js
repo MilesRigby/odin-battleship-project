@@ -15,7 +15,7 @@ const GameSetup = ({events = eventsSys, Player = PlayerConstructor} = {}) => {
 
         events.emit('player_objects_constructed', {playerOne: players[0], playerTwo: players[1]});
 
-        events.emit('ship_placement_initialised', {playerObj: players[0], shipLength: 2});
+        events.emit('ship_placement_initialised', {player: 0, playerObj: players[0], shipLength: 2});
     });
 
     events.listen('ship_placed', ({playerObj = Player('real'), pos = {x: 0, y: 0}, shipLength = 1, orientation = 0} = {}) => {
@@ -30,7 +30,7 @@ const GameSetup = ({events = eventsSys, Player = PlayerConstructor} = {}) => {
             }
         }
 
-        events.emit('ship_placement_initialised', {playerObj: players[currentPlayer], shipLength: shipLengths[shipsPlaced % 5]});
+        events.emit('ship_placement_initialised', {player: currentPlayer, playerObj: players[currentPlayer], shipLength: shipLengths[shipsPlaced % 5]});
     });
 
 }
