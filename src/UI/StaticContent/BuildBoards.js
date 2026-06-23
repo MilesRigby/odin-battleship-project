@@ -1,5 +1,6 @@
 
-import './player-boards.css'
+import './player-boards.css';
+
 import PlayerGrid from "./PlayerGrid.js";
 import ConstructHTMLFromObject from "../ContentBuilder.js";
 
@@ -40,6 +41,9 @@ const BuildBoards = () => {
     // Moves to gameplay mode when setup ends
     events.listen('setup_completed', () => {
         stage = 'gameplay';
+        console.log("e")
+        boards[0].setGridVisibility(false);
+        boards[1].setGridVisibility(false);
     });
 
     // Establishes behaviour for when a ship is to be placed
@@ -54,9 +58,11 @@ const BuildBoards = () => {
     // Allows modification of the orientation of placed ships
     document.addEventListener('keydown', (event) => {
         const keyName = event.key;
-        if (keyName === 'e') orientation = (orientation + 1) % 4;
-        if (keyName === 'q') orientation = (orientation + 3) % 4;
-        if (ghostShipPos) boards[playerNo].createShipPlacementGhost(ghostShipPos, shipLength, orientation);
+        if (stage === 'placement') {
+            if (keyName === 'e') orientation = (orientation + 1) % 4;
+            if (keyName === 'q') orientation = (orientation + 3) % 4;
+            if (ghostShipPos) boards[playerNo].createShipPlacementGhost(ghostShipPos, shipLength, orientation);
+        }
     });
 
     // Places ghost ships when a grid cell is moused over
@@ -70,6 +76,31 @@ const BuildBoards = () => {
     events.listen('cell_clicked' , ({board, pos} = {}) => {
         if (stage === 'placement' && board === playerNo) { events.emit('ship_coords_selected', {playerObj: playerObject, pos: pos, length: shipLength, orientation: orientation}); }
         else events.emit('space_clicked', {pos: pos, boardNo: board});
+    });
+
+    // Determines visibility of boards when a ship is to be placed
+    events.listen('player_ship_placement_initialised', ({player} = {}) => {
+        boards[player].setGridVisibility(true);
+        boards[1-player].setGridVisibility(false);
+    });
+
+    // Hides both boards at the end of a turn
+    events.listen('turn_ended', () => {
+        boards[0].setGridVisibility(false);
+        boards[1].setGridVisibility(false);
+    });
+
+    // Determines visibility of boards on turn start
+    events.listen('handover_complete', ({player, type, oppType} = {}) => {
+        const playerIsReal = (type === 'real');
+        const oppIsReal = (oppType === 'real');
+        console.log(player, type, oppType)
+        // Display board on player's turn if they are human (they can see their board) or if the opponent is a computer (computers can't cheat)
+        if (playerIsReal || !oppIsReal) boards[player].setGridVisibility(true);
+
+        // Show opponent's board if the player is a computer (computers can't cheat)
+        if (!playerIsReal) boards[1-player].setGridVisibility(true);
+
     });
 
     return playerBoards;

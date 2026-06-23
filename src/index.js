@@ -1,7 +1,7 @@
 import "./styles.css";
 
-import BuildStaticContent from "./UI/StaticContent/staticContent.js";
 import BuildDynamicContent from "./UI/DynamicContent/dynamicContent.js";
+import BuildStaticContent from "./UI/StaticContent/staticContent.js";
 
 import AddLogic from "./Logic/LogicImports.js";
 

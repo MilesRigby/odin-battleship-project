@@ -18,8 +18,6 @@ const TurnHandler = ({events = eventsSys} = {}) => {
         const player = players[playerNo];
         const target = players[1-playerNo];
 
-        console.log(playerNo)
-
         if (player.type === 'real') {
             currentTurn = playerNo;
             turnActive = true;

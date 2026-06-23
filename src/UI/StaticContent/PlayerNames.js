@@ -36,8 +36,6 @@ const BuildPlayerNames = () => {
             names[1] = names[1] + ' 2';
         }
 
-        console.log(names);
-
         return names;
     }
 

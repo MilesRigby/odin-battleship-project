@@ -5,7 +5,7 @@ import ConstructHTMLFromObject from "../ContentBuilder.js";
 
 const playerSelectPanel = ConstructHTMLFromObject(
 
-    { "div": {attributes: {"id": "player-select-panel"}, children: [
+    { "div": {attributes: {"id": "player-select-panel", "className": "panel"}, children: [
         { "p": {attributes: {"className": "header", "textContent": "Select Players"}, children: []} },
 
         { "form": {attributes: {"id": "player-types-form"}, children: [
@@ -54,7 +54,7 @@ playerSelectPanel.querySelector('#player-types-form').addEventListener('submit',
 events.listen('game_started', () => {
     const dynamicContent = document.querySelector("#dynamic-content");
     dynamicContent.appendChild(playerSelectPanel);
-})
+});
 
 
 export default playerSelectPanel;
