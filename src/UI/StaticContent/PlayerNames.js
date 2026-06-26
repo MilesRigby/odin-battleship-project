@@ -36,6 +36,8 @@ const BuildPlayerNames = () => {
             names[1] = names[1] + ' 2';
         }
 
+        events.emit('player_names_determined', {playerNames: names});
+
         return names;
     }
 
