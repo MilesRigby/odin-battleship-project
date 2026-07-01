@@ -3,9 +3,10 @@
 The popular boardgame Battleship, with game objects coded using test-driven development as part of The Odin Project.
 
 Features:
-- Game board is a 10*10 grid of initially white-blue tiles, representing unknown water.
+- Game board is a 10*10 grid of initially black tiles, representing unknown water.
 - For computers, ships are randomly placed.
-- For players, ships are placed using a form which takes an x and y position, as well as one of four orientations (N/S/E/W) for each of five ship lengths - 2, 3, 3, 4, 5.
+- For players, ships are placed by clicking, orientation chosen with q/e controls for each of five ship lengths - 2, 3, 3, 4, 5.
+- When a player goes to place a ship by hovering on the board, they can see a dark grey 'ghost' of where the ship will be placed if they click.
 - Players take turns firing on the opposing team's board in a square that has not been targeted before.
 - Targeted squares with no ship turn blue, representing open water. Squares containing a ship turn red, representing damage to a ship.
 - Computers always take random valid turns on a 1 second delay.
@@ -21,14 +22,14 @@ template.html - largely blank HTML file, which index loads the site's content in
 
 styles.css - contains all styles for the project.
 
-/UI - contains definitions for the page's UI content, including the game boards and popups/ship placement forms. Also sets up event listeners on UI elements and provides public controlling functions for the UI.
+/UI - contains definitions for the page's UI content, including the game boards (as static objects) and popups/ship placement forms (as dynamically added elements). Also sets up event listeners on UI elements, making use of events from within the game logic.
 
-/UI/ContentBuilder.js - Includes an updated version of the ConstructHTMLFromObject() function which allows use of JavaScript data attributes. This is used for styling based on whether it is a given player's turn for showing/hiding ships.
+/UI/ContentBuilder.js - Includes an updated version of the ConstructHTMLFromObject() function of my own design which allows use of JavaScript data attributes. This is used for styling based on whether it is a given player's turn for showing/hiding ships, and the state of a given tile (ship, hit, or, missed).
 
 /Objects - contains object constructors for data and logic of game boards and ships, distinct from the UI representations of these objects. Testing is also included which details the functionality of these objects' methods. There is also a player object which just contains a board and whether the player is human or computer.
 
-/Events - defines the main game loop, including setup, turn order, and tells the UI when to display different objects or update. Takes in the controlling funtions from the UI via dependency injection.
+/Events - defines the main game loop, including setup, turn order, emitting events which other logic and UI elements listen to to update. Testing is included for most logic processes.
 
-The game logic and UI are tightly coupled and poorly organised. I plan to fix these issues through refactoring before continuing the Odin Project.
+This is refactored from an old version which was poorly organised, with high interactivity between logic and UI. I believe this second version is a significant improvement, however suffers from being overly complex. Overall I am happy with the functioning of the final webpage and hopefully I can apply the lessons learned from this experience to future projects.
 
 Playable at github pages link: https://milesrigby.github.io/odin-battleship-project/
